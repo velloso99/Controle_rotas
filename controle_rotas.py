@@ -142,8 +142,8 @@ def tela_cadastrar_usuario():
     l_enter= Button(frame_login,command= cadastrar_usuario, text="Enter", font=('Ivy 15 bold'), width=10, overrelief=RIDGE, relief="solid", bg=co1, fg=co6)
     l_enter.place(x=450, y=350, anchor=CENTER)
 
-    #l_voltar= Button(frame_login, text="Voltar a tela de Login", font=('Ivy 15 bold'), compound=LEFT, width=20, overrelief=RIDGE, relief="solid", bg=co1, fg=co6)
-    #l_voltar.place(x=450, y=400, anchor=CENTER)
+    l_voltar= Button(frame_login,command=root.destroy, text="Feche para atualizar o software", font=('Ivy 15 bold'), compound=LEFT, width=40, overrelief=RIDGE, relief="solid", bg=co1, fg=co7)
+    l_voltar.place(x=450, y=400, anchor=CENTER)
     
     
 def painel():
@@ -163,7 +163,35 @@ def painel():
     l_titulo.place(x=0, y=0, relwidth=1, relheight=1)
     #################---------CONFIGURAÇÃO------##################################################################################
     locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')  # Pode variar por sistema operaciona   
+    #################---------BOTÕES------##################################################################################
+    bt_ml = Button(frame_botao, command=None, text="Mercado Livre", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_ml.grid(row=0, column=0)
+
+    bt_sp = Button(frame_botao, command=NONE, text="Shopee", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_sp.grid(row=0, column=1)
+
+    bt_colagem = Button(frame_botao, command=None, text="Colagem", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_colagem.grid(row=0, column=2)
+
+    bt_abast = Button(frame_botao, command=None, text="Abastecimento", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_abast.grid(row=0, column=3)
+
+    bt_lucroanual = Button(frame_botao, command=None, text="Lucro Anual", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_lucroanual.grid(row=0, column=4)
+
+    bt_lucpormes = Button(frame_botao, command=None, text="Lucro por Mês", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_lucpormes.grid(row=0, column=5)
+
+    bt_contas = Button(frame_botao, command=None, text="Contas", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_contas.grid(row=0, column=6)
+
+    bt_contaml = Button(frame_botao, command=None, text="Conta Mercado Livre", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_contaml.grid(row=0, column=7)
     
+    l_v_mês = Label(frame_baixo, text="Valor Mensal R$:", font=('Ivy 10 bold'), bg=co1, fg=co6)
+    l_v_mês.place(x=390, y=40)
+    e_v_mês = Entry(frame_baixo,textvariable=v_mes_var, width=10, justify=CENTER, font=('Ivy 10 bold'),  relief='solid', bg=co1, fg=co6)
+    e_v_mês.place(x=390, y=60)
     
     
     
