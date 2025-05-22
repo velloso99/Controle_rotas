@@ -91,14 +91,14 @@ def excluir_dados_s(i):
         cur.execute(query, (i))
 
 # Tabela Eu Entrego
-def criar_dados_ml(i):
+def criar_dados_ee(i):
     with con:
         cur = con.cursor()
         query = "INSERT INTO Rota_Eu_Entrego(data,dia_semana,valor_rota,valor_bomba,km,lucro,entregas,devolvidas,total) values(?,?,?,?,?,?,?,?,?)"
         cur.execute(query, i)
         con.commit()  # Commit para salvar as alterações no banco de dados
 #-----------------------------------------------------------------------------------------------------------------
-def ver_dados_ml():
+def ver_dados_ee():
     try:
         with con:  # Certifique-se de que `con` (conexão) está definida globalmente
             cur = con.cursor()
@@ -108,7 +108,7 @@ def ver_dados_ml():
         print(f"Erro ao buscar dados: {e}")
         return []
 #-----------------------------------------------------------------------------------------------------------------
-def calcular_total_lucro_ml():
+def calcular_total_lucro_ee():
     try:
         with con:
             cur = con.cursor()
@@ -119,13 +119,13 @@ def calcular_total_lucro_ml():
         print(f"Erro ao calcular total de lucro: {e}")
         return 0
 #-----------------------------------------------------------------------------------------------------------------
-def atualizar_dados_ml(i):
+def atualizar_dados_ee(i):
     with con:
         cur = con.cursor()
         query = "UPDATE Rota_Eu_Entrego SET data=?,dia_semana=?,valor_rota=?,valor_bomba=?,km=?,lucro=?,entregas=?,devolvidas=?,total=? WHERE id=?"
         cur.execute(query, i)
 #-----------------------------------------------------------------------------------------------------------------
-def excluir_dados_ml(i):
+def excluir_dados_ee(i):
     with con:
         cur = con.cursor()
         query = "DELETE FROM Rota_Eu_Entrego WHERE id=?"
