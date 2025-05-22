@@ -173,34 +173,34 @@ def painel():
 ############################################################################################################################################
 ###################################### ROTA MERCADO LIVRE ##################################################################################
 #############################################################################################################################################
-def ml_rota():
+    def ml_rota():
     
-    frame_cima = Frame(root, width=900, height=50, bg=co1, relief='flat')
-    frame_cima.grid(row=0, column=0, padx=0, pady=0, sticky=NSEW)
+        frame_cima = Frame(root, width=900, height=50, bg=co1, relief='flat')
+        frame_cima.grid(row=0, column=0, padx=0, pady=0, sticky=NSEW)
     
-    frame_botao = Frame(root, width=900, height=50, bg=co1, relief='flat')
-    frame_botao.grid(row=1, column=0, padx=0, pady=0, sticky=NSEW)
+        frame_botao = Frame(root, width=900, height=50, bg=co1, relief='flat')
+        frame_botao.grid(row=1, column=0, padx=0, pady=0, sticky=NSEW)
 
-    frame_baixo = Frame(root, width=900, height=200, bg=co1, relief='flat')
-    frame_baixo.grid(row=2, column=0, padx=0, pady=0, sticky=NSEW)
+        frame_baixo = Frame(root, width=900, height=200, bg=co1, relief='flat')
+        frame_baixo.grid(row=2, column=0, padx=0, pady=0, sticky=NSEW)
     
-    frame_tabela = Frame(root, width=900, height=350, bg=co1, relief='flat')
-    frame_tabela.grid(row=3, column=0, padx=0, pady=0, sticky=NSEW)
+        frame_tabela = Frame(root, width=900, height=350, bg=co1, relief='flat')
+        frame_tabela.grid(row=3, column=0, padx=0, pady=0, sticky=NSEW)
 
-    #################---------TITULO------##################################################################################
-    l_titulo= Label(frame_cima, text="Rota Mercado LIvre", anchor=CENTER, font=('Ivy 13 bold'), bg=co6, fg=co0)
-    l_titulo.place(x=0, y=0, relwidth=1, relheight=1)
+        #################---------TITULO------##################################################################################
+        l_titulo= Label(frame_cima, text="Rota Mercado LIvre", anchor=CENTER, font=('Ivy 13 bold'), bg=co6, fg=co0)
+        l_titulo.place(x=0, y=0, relwidth=1, relheight=1)
     #################---------CONFIGURAÇÕES BOTÕES------##################################################################################
-    def voltar_painel():
-        for widget in frame_cima.winfo_children():
-            widget.destroy()
-        for widget in frame_baixo.winfo_children():
-            widget.destroy()
-        for widget in frame_botao.winfo_children():
-            widget.destroy()
-        for widget in frame_tabela.winfo_children():
-            widget.destroy()
-        painel()
+        def voltar_painel():
+            for widget in frame_cima.winfo_children():
+             widget.destroy()
+            for widget in frame_baixo.winfo_children():
+                widget.destroy()
+            for widget in frame_botao.winfo_children():
+                widget.destroy()
+            for widget in frame_tabela.winfo_children():
+                widget.destroy()
+            painel()
 
     ################---------CONFIGURAÇÃO DE DADOS------##################################################################################
     v_mes_var = tk.StringVar()
@@ -231,39 +231,39 @@ def ml_rota():
         except ValueError:
             messagebox.showerror("Erro", "Por favor, insira valores numéricos válidos.")
             
-    def cadastrar_dados():
-        data = e_data.get()
-        dia_semana = e_d_semana.get()
+        def cadastrar_dados():
+            data = e_data.get()
+            dia_semana = e_d_semana.get()
 
-        # Verifica campos obrigatórios de texto antes de conversões
-        if not all([data, dia_semana, e_valor_rota.get(), e_km.get(), e_v_comb.get(), 
-                    e_lucro.get(), e_entregas.get(), e_dev.get(), e_Total_entregas.get()]):
-            messagebox.showerror("Erro", "Preencha todos os campos!")
-            return
+            # Verifica campos obrigatórios de texto antes de conversões
+            if not all([data, dia_semana, e_valor_rota.get(), e_km.get(), e_v_comb.get(), 
+                        e_lucro.get(), e_entregas.get(), e_dev.get(), e_Total_entregas.get()]):
+                messagebox.showerror("Erro", "Preencha todos os campos!")
+                return
 
-        try:
-            valor_rota = float(e_valor_rota.get())
-            km = float(e_km.get())
-            valor_bomba = float(e_v_comb.get())
-            lucro = float(e_lucro.get())
-            entregas = int(e_entregas.get())
-            devolvidas = int(e_dev.get())
-            total = float(e_Total_entregas.get())
-        except ValueError:
-            messagebox.showerror("Erro", "Verifique se os valores numéricos estão corretos.")
-            return
+            try:
+                valor_rota = float(e_valor_rota.get())
+                km = float(e_km.get())
+                valor_bomba = float(e_v_comb.get())
+                lucro = float(e_lucro.get())
+                entregas = int(e_entregas.get())
+                devolvidas = int(e_dev.get())
+                total = float(e_Total_entregas.get())
+            except ValueError:
+                messagebox.showerror("Erro", "Verifique se os valores numéricos estão corretos.")
+                return
 
-        lista = [data, dia_semana, valor_rota, km, valor_bomba, lucro, entregas, devolvidas, total]
+            lista = [data, dia_semana, valor_rota, km, valor_bomba, lucro, entregas, devolvidas, total]
 
-        # Inserindo no banco de dados
-        criar_dados_ml(lista)
+            # Inserindo no banco de dados
+            criar_dados_ml(lista)
 
-        messagebox.showinfo("Sucesso", "Dados cadastrados com sucesso!")
+            messagebox.showinfo("Sucesso", "Dados cadastrados com sucesso!")
 
-        # Limpa os campos após o cadastro
-        for campo in [e_data, e_d_semana, e_valor_rota, e_km, e_v_comb,
-                    e_lucro, e_entregas, e_dev, e_Total_entregas]:
-            campo.delete(0, END)
+            # Limpa os campos após o cadastro
+            for campo in [e_data, e_d_semana, e_valor_rota, e_km, e_v_comb,
+                        e_lucro, e_entregas, e_dev, e_Total_entregas]:
+                campo.delete(0, END)
 
     def calcular_total_valor_rota():
         try:
@@ -383,7 +383,7 @@ def ml_rota():
                 "Saturday": "Sábado",
                 "Sunday": "Domingo"
             }
-            dia_semana_pt = dias_traduzidos.get(dia_semana, "")
+            dia_semana_pt = dias_traduzidos[dia_semana]
 
             # Atualiza o campo de dia da semana
             e_d_semana.delete(0, END)
@@ -522,11 +522,10 @@ def ml_rota():
 
         for item in df_list:
             tree_lucro.insert("", "end", values=item)
-            
+
     mostrar_ml()
-    
-    
-    
+
+
 ############################################################################################################################################
 ###################################### ROTA SHOPPEE ##################################################################################
 #############################################################################################################################################
@@ -844,7 +843,11 @@ def sp_rota():
     def mostrar_s():
     
         # Atualizar os valores totais nos Entry
-        atualizar_entry_valor_rota() 
+        atualizar_entry_valor_rota()
+        # atualizar_e_v_mes()  # Removed as it is not defined
+
+        # Atualizar os valores totais nos Entry
+        atualizar_entry_valor_rota()
         # atualizar_e_v_mes()  # Removed as it is not defined
 
         app_nome = Label(frame_tabela, text="Registros de Rotas", height=1, pady=0, padx=0,relief="flat", anchor="center", font=('Ivy 10 bold'), bg=co1, fg=co4)
@@ -1205,12 +1208,14 @@ def ee_rota():
 
     #Tabela Shoppee
     def mostrar_e():
-        global tree_lucro
+        
+        # Atualizar os valores totais nos Entry
+        atualizar_entry_valor_rota()
+        # atualizar_e_v_mes()  # Removed as it is not defined
 
-        try:
-            tree_lucro.destroy()
-        except:
-            pass
+        # Atualizar os valores totais nos Entry
+        atualizar_entry_valor_rota()
+        # atualizar_e_v_mes()  # Removed as it is not defined
 
         app_nome = Label(frame_tabela, text="Registros de Rotas", font=('Ivy 12 bold'), bg=co1, fg=co4)
         app_nome.grid(row=0, column=0, sticky="nsew")
@@ -1243,7 +1248,10 @@ def ee_rota():
                 tree_lucro.insert("", "end", values=item)
             except Exception as e:
                 print(f"Erro ao inserir item na tabela: {e}")
-    
+    mostrar_e()
+
+
+
 
 root.mainloop()
 
