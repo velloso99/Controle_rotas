@@ -13,9 +13,10 @@ from views import*
 from tkcalendar import Calendar
 from datetime import datetime
 ####################################################################
+import tkinter as tk
 import sys
 import subprocess
 import sqlite3
 import subprocess
-import os, sys
 import locale
+import sys, os

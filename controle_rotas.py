@@ -1,8 +1,5 @@
 from pacotes import *
-from tkinter.ttk import Style
 from views import*
-import sys, os
-import tkinter as tk
 
 # Criando Janela
 root = Tk()
@@ -20,10 +17,6 @@ pos_x = ( largura_tela-largura_root )//2
 pos_y = (altura_tela - altura_root)//2
 # Definir geometria da janela (LxA+X+Y)
 root.geometry(f"{largura_root}x{altura_root}+{pos_x}+{pos_y}")
-
-style = Style(root)
-style.theme_use("clam")
-
 
 
 #criando frame
@@ -49,14 +42,8 @@ def cad_usuario():
     #for widget in frame_login.winfo_children():
         #widget.destroy()
         #painel()
-    
-    
-    
-########################################################################################
-#Tela de Login
 
-    
-    #verificar Login e abrir novo arquivo    
+#verificar Login e abrir novo arquivo    
 def verificar_logion():
     global usuario, senha
     
@@ -198,8 +185,7 @@ def painel():
 #############################################################################################################################################
 def ml_rota():
     
-    
-    
+
     frame_cima = Frame(root, width=900, height=50, bg=co1, relief='flat')
     frame_cima.grid(row=0, column=0, padx=0, pady=0, sticky=NSEW)
     
@@ -211,11 +197,10 @@ def ml_rota():
     
     frame_tabela = Frame(root, width=900, height=350, bg=co1, relief='flat')
     frame_tabela.grid(row=3, column=0, padx=0, pady=0, sticky=NSEW)
-    
+
     #################---------TITULO------##################################################################################
     l_titulo= Label(frame_cima, text="Rota Mercado LIvre", anchor=CENTER, font=('Ivy 13 bold'), bg=co6, fg=co0)
     l_titulo.place(x=0, y=0, relwidth=1, relheight=1)
-
     #################---------CONFIGURAÇÕES BOTÕES------##################################################################################
     def voltar_painel():
         for widget in frame_cima.winfo_children():
@@ -230,8 +215,7 @@ def ml_rota():
 
     ################---------CONFIGURAÇÃO DE DADOS------##################################################################################
     v_mes_var = tk.StringVar()
-    
-
+    #################---------CONFIGURAÇÕES GERAL   ------##################################################################################
     def calcular_media_combustivel():
         try:
             valor_rota = float(e_valor_rota.get())
@@ -259,7 +243,7 @@ def ml_rota():
             messagebox.showerror("Erro", "Por favor, insira valores numéricos válidos.")
             
     def cadastrar_dados():
-        data = entry_data.get()
+        data = e_data.get()
         dia_semana = e_d_semana.get()
 
         # Verifica campos obrigatórios de texto antes de conversões
@@ -288,7 +272,7 @@ def ml_rota():
         messagebox.showinfo("Sucesso", "Dados cadastrados com sucesso!")
 
         # Limpa os campos após o cadastro
-        for campo in [entry_data, e_d_semana, e_valor_rota, e_km, e_v_comb,
+        for campo in [e_data, e_d_semana, e_valor_rota, e_km, e_v_comb,
                     e_lucro, e_entregas, e_dev, e_Total_entregas]:
             campo.delete(0, END)
 
@@ -316,11 +300,11 @@ def ml_rota():
             valor_id = tree_lista[0]
 
          # Limpando campos
-            for campo in [entry_data, e_d_semana, e_valor_rota, e_km, e_v_comb, e_lucro, e_entregas, e_dev, e_Total_entregas]:
+            for campo in [e_data, e_d_semana, e_valor_rota, e_km, e_v_comb, e_lucro, e_entregas, e_dev, e_Total_entregas]:
                 campo.delete(0, END)
 
             # Preenchendo os campos com os valores selecionados
-            entry_data.insert(0, tree_lista[1])
+            e_data.insert(0, tree_lista[1])
             e_d_semana.insert(0, tree_lista[2])
             e_valor_rota.insert(0, tree_lista[3])
             e_km.insert(0, tree_lista[4])
@@ -334,7 +318,7 @@ def ml_rota():
             def update():
                 # Coleta de dados
                 dados = [
-                    entry_data.get(),
+                    e_data.get(),
                     e_d_semana.get(),
                     e_valor_rota.get(),
                     e_km.get(),
@@ -354,7 +338,7 @@ def ml_rota():
                     atualizar_dados_ml(dados)
                     messagebox.showinfo('Sucesso', 'Os dados foram atualizados com sucesso!')
 
-                    for campo in [entry_data, e_d_semana, e_valor_rota, e_km, e_v_comb, e_lucro, e_entregas, e_dev, e_Total_entregas]:
+                    for campo in [e_data, e_d_semana, e_valor_rota, e_km, e_v_comb, e_lucro, e_entregas, e_dev, e_Total_entregas]:
                         campo.delete(0, END)
 
                     mostrar_ml()
@@ -391,6 +375,48 @@ def ml_rota():
         except IndexError:
             messagebox.showerror('Erro', 'Selecione um dos alunos na tabela')
 
+    def calendario():
+        
+        def pegar_data():
+            data_selecionada = cal.selection_get()
+            e_data.delete(0, END)
+            e_data.insert(0, data_selecionada.strftime("%d/%m/%Y"))
+        
+            # Mostrar automaticamente o dia da semana:
+            dia_semana = data_selecionada.strftime("%A")  # Dia da semana em inglês
+            dias_traduzidos = {
+                "Monday": "Segunda-feira",
+                "Tuesday": "Terça-feira",
+                "Wednesday": "Quarta-feira",
+                "Thursday": "Quinta-feira",
+                "Friday": "Sexta-feira",
+                "Saturday": "Sábado",
+                "Sunday": "Domingo"
+            }
+            dia_semana_pt = dias_traduzidos.get(dia_semana, "")
+            # Atualiza o campo de dia da semana
+            e_d_semana.delete(0, END)
+            e_d_semana.insert(0, dia_semana_pt)
+
+            calendario.destroy()
+
+        calendario = Toplevel(root)
+        calendario.title("Calendário")
+        calendario.resizable(width=False, height=False)
+
+        largura_root = 200
+        altura_root = 270
+        largura_tela = calendario.winfo_screenwidth()
+        altura_tela = calendario.winfo_screenheight()
+        pos_x = (largura_tela - largura_root) // 2
+        pos_y = (altura_tela - altura_root) // 2
+        calendario.geometry(f"{largura_root}x{altura_root}+{pos_x}+{pos_y}")
+
+        cal = Calendar(calendario, selectmode="day", date_pattern="dd/mm/yyyy")
+        cal.pack(pady=20)
+
+        Button(calendario, text="Selecionar", command=pegar_data).pack(pady=10)
+
     #################---------BOTÕES------##################################################################################
     bt_adicionar = Button(frame_botao, command=cadastrar_dados, text="Adicionar", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_adicionar.grid(row=0, column=1)
@@ -412,55 +438,12 @@ def ml_rota():
 
     bt_voltar = Button(frame_botao, command=voltar_painel, text="Painel", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_voltar.grid(row=0, column=7)
-    #################---------CONFIGURAÇÕES------##################################################################################
-    def calendario():
-        def pegar_data():
-            data_selecionada = cal.selection_get()
-
-            entry_data.delete(0, END)
-            entry_data.insert(0, data_selecionada.strftime("%d/%m/%Y"))
-
-            dia_semana = data_selecionada.strftime("%A")
-            dias_traduzidos = {
-                "Monday": "Segunda-feira",
-                "Tuesday": "Terça-feira",
-                "Wednesday": "Quarta-feira",
-                "Thursday": "Quinta-feira",
-                "Friday": "Sexta-feira",
-                "Saturday": "Sábado",
-                "Sunday": "Domingo"
-            }
-            dia_semana_pt = dias_traduzidos.get(dia_semana, "")
-
-            e_d_semana.delete(0, END)
-            e_d_semana.insert(0, dia_semana_pt)
-
-            calendario_root.destroy()
-
-        calendario_root = Toplevel()
-        calendario_root.title("Selecionar Data")
-        calendario_root.resizable(width=False, height=False)
-
-        largura_root = 250
-        altura_root = 300
-        largura_tela = calendario_root.winfo_screenwidth()
-        altura_tela = calendario_root.winfo_screenheight()
-        pos_x = (largura_tela - largura_root) // 2
-        pos_y = (altura_tela - altura_root) // 2
-        calendario_root.geometry(f"{largura_root}x{altura_root}+{pos_x}+{pos_y}")
-
-        cal = Calendar(calendario_root, selectmode="day", date_pattern="dd/mm/yyyy", locale='pt_BR')
-        cal.pack(pady=20)
-
-        Button(calendario_root, text="Selecionar", command=pegar_data).pack(pady=10)
-
-
+    
     #################--------LABEL------##################################################################################
     bt_calendario = Button(frame_baixo, text="Data", command=calendario)
-    bt_calendario.config(command=calendario)
     bt_calendario.place(x=10, y=10)
-    entry_data = Entry(frame_baixo, width=10, justify=LEFT, font=('Ivy 10 bold'),  relief='solid')
-    entry_data.place(x=70, y=10) 
+    e_data = Entry(frame_baixo, width=10, justify=LEFT, font=('Ivy 10 bold'),  relief='solid')
+    e_data.place(x=70, y=10)  
 
     l_d_semana = Label(frame_baixo, text="Dia da Semana:", font=('Ivy 10 bold'), bg=co1, fg=co6)
     l_d_semana.place(x=190, y=10)
@@ -549,6 +532,7 @@ def ml_rota():
 
         for item in df_list:
             tree_lucro.insert("", "end", values=item)
+            
     mostrar_ml()
     
     
@@ -558,5 +542,6 @@ def ml_rota():
     
     
     
-    
+
 root.mainloop()
+ml_rota()
