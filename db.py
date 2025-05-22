@@ -65,4 +65,24 @@ try:
         print("Tabela Rota Shoppee criada com sucesso!")
 except sqlite3.Error as e:
     print("Erro ao criar Rota Shoppee!")    
-    
+ 
+#Tabela Rota Mercado lIvre
+try:
+    with con:
+        cur= con.cursor()
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS Rota_Eu_Entrego(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                data TEXT,
+                dia_semana TEXT,
+                valor_rota TEXT,
+                km TEXT,
+                valor_bomba TEXT,
+                lucro TEXT,
+                entregas TEXT,
+                devolvidas TEXT,
+                total TEXT
+            )""")
+        print("Tabela Rota Eu Entrego criada com sucesso!")
+except sqlite3.Error as e:
+    print("Erro ao criar Rota Eu Entrego!")      
