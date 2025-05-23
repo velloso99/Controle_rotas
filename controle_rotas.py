@@ -1,5 +1,6 @@
 from pacotes import *
 from views import*
+from tkcalendar import Calendar
 
 # Criando Janela
 root = Tk()
@@ -18,12 +19,6 @@ pos_y = (altura_tela - altura_root)//2
 # Definir geometria da janela (LxA+X+Y)
 root.geometry(f"{largura_root}x{altura_root}+{pos_x}+{pos_y}")
 
-
-#criando frame
-#frame_logo = Frame(root, width=950, height=52, bg=co1)
-#frame_logo.grid(row=0, column=0, pady=0, padx=0, sticky=NSEW)
-
-#ttk.Separator(root, orient=HORIZONTAL).grid(row=1, columnspan=1, ipadx=950)
 
 frame_login = Frame(root, width=950, height=750, bg=co1)
 frame_login.grid(row=2, column=0, pady=0, padx=0, sticky=NSEW)
@@ -378,52 +373,55 @@ def ml_rota():
 
     def abrir_calendario():
         def pegar_data():
-            
-            data_selecionada = cal.selection_get()
-            e_data.delete(0, END)
-            e_data.insert(0, data_selecionada.strftime("%d/%m/%Y"))
-    
             data = cal.selection_get()
+
             # Obter dia da semana em inglês
-            dia_semana = data.strftime("%A")
+            dia_semana = data.strftime('%A')
+
             # Traduzir para português
-            dias_semana = {
+            dia_semana = {
                 "Monday": "Segunda-feira",
-            "Tuesday": "Terça-feira",
+                "Tuesday": "Terça-feira",
                 "Wednesday": "Quarta-feira",
                 "Thursday": "Quinta-feira",
                 "Friday": "Sexta-feira",
                 "Saturday": "Sábado",
                 "Sunday": "Domingo"
             }
-            dia_pt = dias_semana.get(dia_semana, "")
-            # Formatar data e dia da semana
-            texto = f"{data.strftime('%d/%m/%Y')} - {dia_pt}"
-            # Inserir no Entry
-            e_d_semana.delete(0, END)
-            e_d_semana.insert(0, texto)
-            # Fechar o calendário
-            calendario.destroy()
 
-        # Criar nova janela para o calendário
-        calendario = Toplevel(root)
-        calendario.title("Selecionar Data")
-        calendario.resizable(False, False)
-        # Centralizar a janela
-        largura_root = 250
-        altura_root = 250
-        largura_tela = calendario.winfo_screenwidth()
-        altura_tela =calendario.winfo_screenheight()
+            dia_pt = dia_semana.get(dia_semana, "")
+
+            # Inserir a data no campo Data
+            e_data.delete(0, END)
+            e_data.insert(0, data.strftime('%d/%m/%Y'))
+
+            # Inserir o dia da semana no campo Dia da Semana
+            e_d_semana.delete(0, END)
+            e_d_semana.insert(0, dia_pt)
+
+            # Fechar calendário
+            calendario_root.destroy()
+
+        # Janela do calendário
+        calendario_root = Toplevel()
+        calendario_root.title("Selecionar Data")
+        calendario_root.resizable(width=False, height=False)
+
+        # Centralizar na tela
+        largura_root = 200
+        altura_root = 270
+        largura_tela = calendario_root.winfo_screenwidth()
+        altura_tela = calendario_root.winfo_screenheight()
         pos_x = (largura_tela - largura_root) // 2
         pos_y = (altura_tela - altura_root) // 2
-        calendario.geometry(f"{largura_root}x{altura_root}+{pos_x}+{pos_y}")
+        calendario_root.geometry(f"{largura_root}x{altura_root}+{pos_x}+{pos_y}")
 
-        # Widget Calendar
-        cal = Calendar(calendario, selectmode="day", date_pattern="dd/mm/yyyy")
+        # Calendário
+        cal = Calendar(calendario_root, selectmode="day", date_pattern="dd/mm/yyyy")
         cal.pack(pady=20)
 
-        # Botão Selecionar
-        Button(calendario, text="Selecionar", command=pegar_data).pack(pady=10)
+        # Botão selecionar
+        Button(calendario_root, text="Selecionar", command=pegar_data).pack(pady=10)
     #################---------BOTÕES------##################################################################################
     bt_adicionar = Button(frame_botao, command=cadastrar_dados, text="Adicionar", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_adicionar.grid(row=0, column=1)
