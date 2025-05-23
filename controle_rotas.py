@@ -3,22 +3,9 @@ from views import*
 from tkcalendar import Calendar
 
 
-def resource_path(relative_path):
-    """Pega o caminho absoluto, funciona para desenvolvimento e para .exe"""
-    try:
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
-    return os.path.join(base_path, relative_path)
-def caminho_banco():
-    pasta = os.path.join(os.environ['APPDATA'], 'SeuApp')
-    if not os.path.exists(pasta):
-        os.makedirs(pasta)
-    return os.path.join(pasta, 'data.db')
 
 # Criando Janela
 root = Tk()
-#root.iconbitmap(resource_path("ico.ico"))
 root.title("Controle de Rotas e Ganhos")
 root.geometry("900x600")
 root.configure(background=co0)
