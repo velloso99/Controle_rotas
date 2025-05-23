@@ -26,6 +26,15 @@ frame_login.grid(row=2, column=0, pady=0, padx=0, sticky=NSEW)
 ######################################################################################
 ################Login
 ######################################################################################
+def resource_path(relative_path):
+    """Pega o caminho absoluto, funciona para desenvolvimento e para .exe"""
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+imagem = PhotoImage(file=resource_path("ico.ico"))
+
 def login():
     #destruir frame login
     def cad_usuario():
@@ -77,8 +86,6 @@ def login():
 
     l_rodape = Label(frame_login,text="Desenvolvido por: VellosoDev", font=('Ivy 10 bold'), bg=co1, fg=co6, anchor=CENTER, relief=RAISED)
     l_rodape.place(x=450, y=500, anchor=CENTER)
-
-
 
 #criar tela de cadastro usuario
 def tela_cadastrar_usuario():
