@@ -22,7 +22,7 @@ root.geometry(f"{largura_root}x{altura_root}+{pos_x}+{pos_y}")
 
 
 frame_login = Frame(root, width=950, height=750, bg=co1)
-frame_login.grid(row=2, column=0, pady=0, padx=0, sticky=NSEW)
+frame_login.place(x=0, y=0)
 
 
 ######################################################################################
@@ -38,6 +38,11 @@ def login():
         for widget in frame_login.winfo_children():
             widget.destroy()
         tela_cadastrar_usuario()
+    def abrir_painel():
+        for widget in frame_login.winfo_children():
+            widget.destroy()
+        painel()
+    
 
     #verificar Login e abrir novo arquivo    
     def verificar_logion():
@@ -52,13 +57,13 @@ def login():
         resultado = cursor.fetchall()
         if resultado:
             messagebox.showinfo("Sucesso", "Login realizado com sucesso!")
-            painel()
+            abrir_painel()
         else:
             messagebox.showerror("Erro", "Usuario ou senha incorretos!")
             cursor.close()
     
 
-    frame_t_login= Frame(frame_login, width=950, height=750, bg=co1)
+    frame_t_login= Frame(frame_login, width=900, height=600, bg=co1)
     frame_t_login.grid(row=2, column=0, pady=0, padx=0, sticky=NSEW)
     
 
@@ -122,6 +127,9 @@ def tela_cadastrar_usuario():
     l_enter= Button(frame_login,command= cadastrar_usuario, text="Enter", font=('Ivy 15 bold'), width=10, overrelief=RIDGE, relief="solid", bg=co1, fg=co6)
     l_enter.place(x=450, y=350, anchor=CENTER)
 
+    l_voltar = Button(frame_login,command=login, text="Voltar", font=('Ivy 15 bold'), compound=LEFT, width=20, overrelief=RIDGE, relief="solid", bg=co1, fg=co6)
+    l_voltar.place(x=450, y=400, anchor=CENTER)
+
 ############################################################################################################################################
 ###################################### PAINEL PRINCIPAL ##################################################################################
 ############################################################################################################################################# 
@@ -129,7 +137,7 @@ def tela_cadastrar_usuario():
 def painel():
     
     def abrir_ml():
-        for widget in frame_cima.winfo_children():
+        for widget in frame_titulo.winfo_children():
             widget.destroy()
         for widget in frame_baixo.winfo_children():
             widget.destroy()
@@ -141,64 +149,67 @@ def painel():
     global v_mes_var
     v_mes_var = tk.StringVar()
     
-    frame_cima = Frame(root, width=900, height=50, bg=co1, relief='flat')
-    frame_cima.grid(row=0, column=0, padx=0, pady=0, sticky=NSEW)
-    
+    frame_titulo = Frame(root, width=900, height=50, bg=co1, relief='flat')
+    frame_titulo.grid(row=0, column=0, sticky="nsew")
+
     frame_botao = Frame(root, width=900, height=50, bg=co1, relief='flat')
-    frame_botao.grid(row=1, column=0, padx=0, pady=0, sticky=NSEW)
+    frame_botao.grid(row=1, column=0, sticky="nsew")
 
     frame_baixo = Frame(root, width=900, height=200, bg=co1, relief='flat')
-    frame_baixo.grid(row=2, column=0, padx=0, pady=0, sticky=NSEW)
+    frame_baixo.grid(row=2, column=0, sticky="nsew")
+
+    frame_tabela = Frame(root, width=900, height=300, bg=co1, relief='flat')
+    frame_tabela.grid(row=3, column=0, sticky="nsew")
     #################---------TITULO------##################################################################################
-    l_titulo= Label(frame_cima, text="Controle de Rotas e Ganhos", anchor=CENTER, font=('Ivy 13 bold'), bg=co6, fg=co0)
+    l_titulo= Label(frame_titulo, text="Controle de Rotas e Ganhos", anchor=CENTER, font=('Ivy 13 bold'), bg=co6, fg=co0)
     l_titulo.place(x=0, y=0, relwidth=1, relheight=1)
     #################---------CONFIGURAÇÃO------##################################################################################
     locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')  # Pode variar por sistema operaciona   
     #################---------BOTÕES------##################################################################################
     bt_ml = Button(frame_botao, command=abrir_ml, text="Mercado Livre", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_ml.grid(row=0, column=0)
+    bt_ml.grid(row=0, column=0, padx=1, pady=1)
 
     bt_sp = Button(frame_botao, command=sp_rota, text="Shopee", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_sp.grid(row=0, column=1)
+    bt_sp.grid(row=0, column=1, padx=1, pady=1)
 
     bt_euentrego = Button(frame_botao, command=ee_rota, text="Eu Entrego", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_euentrego.grid(row=0, column=2)
+    bt_euentrego.grid(row=0, column=2, padx=1, pady=1)
 
     bt_abast = Button(frame_botao, command=None, text="Abastecimento", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_abast.grid(row=0, column=3)
+    bt_abast.grid(row=0, column=3, padx=1, pady=1)
 
     bt_lucroanual = Button(frame_botao, command=None, text="Lucro Anual", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_lucroanual.grid(row=0, column=4)
+    bt_lucroanual.grid(row=0, column=4, padx=1, pady=1)
 
     bt_lucpormes = Button(frame_botao, command=None, text="Lucro por Mês", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_lucpormes.grid(row=0, column=5)
+    bt_lucpormes.grid(row=0, column=5, padx=1, pady=1)
 
     bt_contas = Button(frame_botao, command=None, text="Contas", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_contas.grid(row=0, column=6)
+    bt_contas.grid(row=0, column=6, padx=1, pady=1)
 
     bt_contaml = Button(frame_botao, command=None, text="Conta Mercado Livre", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_contaml.grid(row=0, column=7)
-    
-    
+    bt_contaml.grid(row=0, column=7, padx=1, pady=1)
+
+
 ############################################################################################################################################
 ###################################### ROTA MERCADO LIVRE ##################################################################################
 #############################################################################################################################################
 def ml_rota():
     
-    frame_cima = Frame(root, width=900, height=50, bg=co1, relief='flat')
-    frame_cima.grid(row=0, column=0, padx=0, pady=0, sticky=NSEW)
+    frame_titulo = Frame(root, width=900, height=50, bg=co1, relief='flat')
+    frame_titulo.grid(row=0, column=0, sticky="nsew")
     
     frame_botao = Frame(root, width=900, height=50, bg=co1, relief='flat')
     frame_botao.grid(row=1, column=0, padx=0, pady=0, sticky=NSEW)
 
     frame_baixo = Frame(root, width=900, height=200, bg=co1, relief='flat')
     frame_baixo.grid(row=2, column=0, padx=0, pady=0, sticky=NSEW)
-    
+
     frame_tabela = Frame(root, width=900, height=350, bg=co1, relief='flat')
     frame_tabela.grid(row=3, column=0, padx=0, pady=0, sticky=NSEW)
 
     #################---------TITULO------##################################################################################
-    l_titulo= Label(frame_cima, text="Rota Mercado LIvre", anchor=CENTER, font=('Ivy 13 bold'), bg=co6, fg=co0)
+    l_titulo= Label(frame_titulo, text="Rota Mercado Livre", anchor=CENTER, font=('Ivy 13 bold'), bg=co6, fg=co0)
     l_titulo.place(x=0, y=0, relwidth=1, relheight=1)
     #################---------CONFIGURAÇÕES BOTÕES------##################################################################################
     def voltar_painel():
@@ -212,9 +223,9 @@ def ml_rota():
             widget.destroy()
         painel()
 
-################---------CONFIGURAÇÃO DE DADOS------##################################################################################
+    ################---------CONFIGURAÇÃO DE DADOS------##################################################################################
     v_mes_var = tk.StringVar()
-#################---------CONFIGURAÇÕES GERAL   ------##################################################################################
+    #################---------CONFIGURAÇÕES GERAL   ------##################################################################################
     def calcular_media_combustivel():
         try:
             valor_rota = float(e_valor_rota.get())
@@ -371,7 +382,6 @@ def ml_rota():
         except IndexError:
             messagebox.showerror('Erro', 'Selecione um dos alunos na tabela')
 
-
     def calendario():
         def pegar_data():
             data_selecionada = cal.selection_get()
@@ -414,26 +424,26 @@ def ml_rota():
         Button(calendario_root, text="Selecionar", command=pegar_data).pack(pady=10)
     #################---------BOTÕES------##################################################################################
     bt_adicionar = Button(frame_botao, command=cadastrar_dados, text="Adicionar", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_adicionar.grid(row=0, column=1)
+    bt_adicionar.place(x=10, y=10)
 
     bt_excluir = Button(frame_botao, command=excluir_dados, text="Excluir", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_excluir.grid(row=0, column=2)
+    bt_excluir.place(x=100, y=10)
 
     bt_imprimir = Button(frame_botao, command=None, text="Imprimir", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_imprimir.grid(row=0, column=3)
+    bt_imprimir.place(x=200, y=10)
 
     bt_calc = Button(frame_botao, command=calcular_media_combustivel, text="Calcular", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_calc.grid(row=0, column=4)
+    bt_calc.place(x=300, y=10)
 
     bt_rela = Button(frame_botao, command=None, text="Relatório", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_rela.grid(row=0, column=5)
+    bt_rela.place(x=400, y=10)
 
     bt_atualizar = Button(frame_botao, command=update_dados, text="Atualizar", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_atualizar.grid(row=0, column=6)
+    bt_atualizar.place(x=500, y=10)
 
     bt_voltar = Button(frame_botao, command=voltar_painel, text="Painel", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_voltar.grid(row=0, column=7)
-    
+    bt_voltar.place(x=600, y=10)
+
     #################--------LABEL------##################################################################################
     bt_calendario = Button(frame_baixo, text="Data", command=calendario)
     bt_calendario.place(x=10, y=10)
@@ -487,7 +497,7 @@ def ml_rota():
     
     #Tabela Mercado Livre
     def mostrar_ml():
-
+        
         # Atualizar os valores totais nos Entry
         atualizar_entry_valor_rota()
         # atualizar_e_v_mes()  # Removed as it is not defined
@@ -496,34 +506,45 @@ def ml_rota():
         atualizar_entry_valor_rota()
         # atualizar_e_v_mes()  # Removed as it is not defined
 
-        app_nome = Label(frame_tabela, text="Registros de Rotas", height=1, pady=0, padx=0,relief="flat", anchor="center", font=('Ivy 10 bold'),bg=co6, fg=co0)
-        app_nome.grid(row=0, column=0, padx=0, pady=0, sticky="nsew")
+        app_nome = Label(frame_tabela, text="Registros de Rotas", height=1, pady=0, padx=0, relief="flat", anchor=NW, font=('Ivy 10 bold'), bg=co1, fg=co6)
+        app_nome.place(x=10, y=10)
 
-        list_header = ['id', 'Data', 'Dia da Semana', 'Valor de Rota', 'Km ', 'valor Bomba', 'lucro', 'Entregas', 'devolvidas', 'Total']
-
-        df_list = ver_dados_ml()
-
-        global tree_lucro
-        tree_lucro = ttk.Treeview(frame_tabela, selectmode="extended", columns=list_header, show="headings")
+        # Definição do cabeçalho
+        list_header = ['id', 'Data', 'Dia da Semana', 'Valor R$', 'KM', 'Valor Bomba R$', 'Lucro R$', 'Entregas', 'Devolvidas', 'Total Entregas']
     
-        vsb = ttk.Scrollbar(frame_tabela, orient="vertical", command=tree_lucro.yview)
-        hsb = ttk.Scrollbar(frame_tabela, orient="horizontal", command=tree_lucro.xview)
+        # Obtém os dados do estoque
+        df_list = ver_dados_ml() # Certifique-se de que essa função retorna os dados corretamente
 
-        tree_lucro.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
-        tree_lucro.grid(column=0, row=1, sticky='nsew')
+        global tree_registro
+
+        # Criando a Treeview
+        tree_registro = ttk.Treeview(frame_tabela, selectmode="extended", columns=list_header, show="headings")
+
+        # Barras de rolagem
+        vsb = ttk.Scrollbar(frame_tabela, orient="vertical", command=tree_registro.yview)
+        hsb = ttk.Scrollbar(frame_tabela, orient="horizontal", command=tree_registro.xview)  # Corrigido aqui
+
+        tree_registro.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
+    
+        # Posicionando os widgets
+        tree_registro.grid(column=0, row=1, sticky='nsew')
         vsb.grid(column=1, row=1, sticky='ns')
         hsb.grid(column=0, row=2, sticky='ew')
+
         frame_tabela.grid_rowconfigure(0, weight=12)
+
+        # Configuração das colunas
+        hd = ["nw", "center", "center", "center", "center", "center", "center", "center", "center", "center"]
+        h = [40, 80, 100, 100, 100, 100, 100, 80, 80, 80]
     
-        hd = ["center"] * len(list_header)
-        h = [40, 100, 100, 100, 50, 100, 100, 100, 100, 100]
-
         for n, col in enumerate(list_header):
-            tree_lucro.heading(col, text=col.title(), anchor="center")
-            tree_lucro.column(col, width=h[n], anchor=hd[n])
+            tree_registro.heading(col, text=col.title(), anchor=NW)
+            tree_registro.column(col, width=h[n], anchor=hd[n])
 
-        for item in df_list:
-            tree_lucro.insert("", "end", values=item)
+        # Inserindo os dados
+        if df_list:
+            for item in df_list:
+                    tree_registro.insert("", "end", values=item)
 
     mostrar_ml()
 
