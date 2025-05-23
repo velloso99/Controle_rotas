@@ -3,7 +3,6 @@ from views import*
 from tkcalendar import Calendar
 
 
-
 # Criando Janela
 root = Tk()
 root.title("Controle de Rotas e Ganhos")
@@ -25,12 +24,15 @@ root.geometry(f"{largura_root}x{altura_root}+{pos_x}+{pos_y}")
 frame_login = Frame(root, width=950, height=750, bg=co1)
 frame_login.grid(row=2, column=0, pady=0, padx=0, sticky=NSEW)
 
+
 ######################################################################################
-################Login
+################Login#################################################################
 ######################################################################################
 
 
 def login():
+    
+
     #destruir frame login
     def cad_usuario():
         for widget in frame_login.winfo_children():
@@ -588,7 +590,7 @@ def sp_rota():
             messagebox.showerror("Erro", "Por favor, insira valores numéricos válidos.")
 
     def cadastrar_dados():
-        data = entry_data.get()
+        data = e_data.get()
         dia_semana = e_d_semana.get()
         valor_rota = e_valor_rota.get()
         km = e_km.get()
@@ -612,7 +614,7 @@ def sp_rota():
         messagebox.showinfo("Sucesso", "Dados cadastrados com sucesso!")
 
         # Limpa os campos após o cadastro
-        entry_data.delete(0, END)
+        e_data.delete(0, END)
         e_d_semana.delete(0, END)
         e_valor_rota.delete(0, END)
         e_km.delete(0, END)
@@ -646,11 +648,11 @@ def sp_rota():
             valor_id = tree_lista[0]
 
             # Limpando campos
-            for campo in [entry_data, e_d_semana, e_valor_rota, e_km, e_v_comb, e_lucro, e_entregas, e_dev, e_Total_entregas]:
+            for campo in [e_data, e_d_semana, e_valor_rota, e_km, e_v_comb, e_lucro, e_entregas, e_dev, e_Total_entregas]:
                 campo.delete(0, END)
 
             # Preenchendo os campos com os valores selecionados
-            entry_data.insert(0, tree_lista[1])
+            e_data.insert(0, tree_lista[1])
             e_d_semana.insert(0, tree_lista[2])
             e_valor_rota.insert(0, tree_lista[3])
             e_km.insert(0, tree_lista[4])
@@ -956,7 +958,7 @@ def ee_rota():
             messagebox.showerror("Erro", "Por favor, insira valores numéricos válidos.")
 
     def cadastrar_dados():
-        data = entry_data.get()
+        data = e_data.get()
         dia_semana = e_d_semana.get()
         valor_rota = e_valor_rota.get()
         km = e_km.get()
@@ -980,7 +982,7 @@ def ee_rota():
         messagebox.showinfo("Sucesso", "Dados cadastrados com sucesso!")
 
         # Limpa os campos após o cadastro
-        entry_data.delete(0, END)
+        e_data.delete(0, END)
         e_d_semana.delete(0, END)
         e_valor_rota.delete(0, END)
         e_km.delete(0, END)
@@ -1014,11 +1016,11 @@ def ee_rota():
             valor_id = tree_lista[0]
 
             # Limpando campos
-            for campo in [entry_data, e_d_semana, e_valor_rota, e_km, e_v_comb, e_lucro, e_entregas, e_dev, e_Total_entregas]:
+            for campo in [e_data, e_d_semana, e_valor_rota, e_km, e_v_comb, e_lucro, e_entregas, e_dev, e_Total_entregas]:
                 campo.delete(0, END)
 
             # Preenchendo os campos com os valores selecionados
-            entry_data.insert(0, tree_lista[1])
+            e_data.insert(0, tree_lista[1])
             e_d_semana.insert(0, tree_lista[2])
             e_valor_rota.insert(0, tree_lista[3])
             e_km.insert(0, tree_lista[4])
@@ -1031,7 +1033,7 @@ def ee_rota():
             # Tentando carregar a imagem
             def update():
                 # Pegando os dados atualizados
-                entry_data = entry_data.get()
+                e_data = e_data.get()
                 e_d_semana = e_d_semana.get()
                 e_valor_rota = e_valor_rota.get()
                 e_km = e_km.get()
@@ -1042,7 +1044,7 @@ def ee_rota():
                 e_Total_entregas = e_Total_entregas.get()
             
             
-                lista = [entry_data, e_d_semana, e_valor_rota, e_km, e_v_comb, e_lucro, e_entregas, e_dev, e_Total_entregas, valor_id]
+                lista = [e_data, e_d_semana, e_valor_rota, e_km, e_v_comb, e_lucro, e_entregas, e_dev, e_Total_entregas, valor_id]
 
                 # Verificação de campos vazios
                 if not all(lista[:-1]):  # Exclui o ID da verificação
@@ -1054,7 +1056,7 @@ def ee_rota():
                     messagebox.showinfo('Sucesso', 'Os dados foram atualizados com sucesso!')
 
                     # Limpa os campos
-                    for campo in [entry_data, e_d_semana, e_valor_rota, e_km, e_v_comb, e_lucro, e_entregas, e_dev, e_Total_entregas]:
+                    for campo in [e_data, e_d_semana, e_valor_rota, e_km, e_v_comb, e_lucro, e_entregas, e_dev, e_Total_entregas]:
                         campo.delete(0, END)
 
                     mostrar_e()
@@ -1250,7 +1252,8 @@ def ee_rota():
     mostrar_e()
 
 
-
 login()
 root.mainloop()
 
+
+#root.mainloop()
