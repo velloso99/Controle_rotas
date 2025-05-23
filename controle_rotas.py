@@ -24,57 +24,59 @@ frame_login = Frame(root, width=950, height=750, bg=co1)
 frame_login.grid(row=2, column=0, pady=0, padx=0, sticky=NSEW)
 
 ######################################################################################
+################Login
 ######################################################################################
-#destruir frame login
-def cad_usuario():
-    for widget in frame_login.winfo_children():
-        widget.destroy()
-    tela_cadastrar_usuario()
+def login():
+    #destruir frame login
+    def cad_usuario():
+        for widget in frame_login.winfo_children():
+            widget.destroy()
+        tela_cadastrar_usuario()
 
-#verificar Login e abrir novo arquivo    
-def verificar_logion():
-    global usuario, senha
+    #verificar Login e abrir novo arquivo    
+    def verificar_logion():
+        global usuario, senha
     
-    usuario = e_user.get() 
-    senha = e_senha.get()
+        usuario = e_user.get() 
+        senha = e_senha.get()
     
-    con = sqlite3.connect('database.db')
-    cursor = con.cursor()
-    cursor.execute("SELECT*FROM login WHERE usuario = ? AND senha = ?", (usuario, senha))
-    resultado = cursor.fetchall()
-    if resultado:
-        messagebox.showinfo("Sucesso", "Login realizado com sucesso!")
-        painel()
-    else:
-        messagebox.showerror("Erro", "Usuario ou senha incorretos!")
-    cursor.close()
-    
-
-frame_t_login= Frame(frame_login, width=950, height=750, bg=co1)
-frame_t_login.grid(row=2, column=0, pady=0, padx=0, sticky=NSEW)
+        con = sqlite3.connect('database.db')
+        cursor = con.cursor()
+        cursor.execute("SELECT*FROM login WHERE usuario = ? AND senha = ?", (usuario, senha))
+        resultado = cursor.fetchall()
+        if resultado:
+            messagebox.showinfo("Sucesso", "Login realizado com sucesso!")
+            painel()
+        else:
+            messagebox.showerror("Erro", "Usuario ou senha incorretos!")
+            cursor.close()
     
 
-l_titulo = Label(frame_login, text="Faça seu login", font=('Ivy 20 bold'), bg=co1, fg=co6)
-l_titulo.place(x=450, y=50, anchor=CENTER)
+    frame_t_login= Frame(frame_login, width=950, height=750, bg=co1)
+    frame_t_login.grid(row=2, column=0, pady=0, padx=0, sticky=NSEW)
+    
 
-l_user= Label(frame_login,text="Usuario", font=('Ivy 15 bold'), bg=co1, fg=co6)
-l_user.place(x=450, y=150, anchor=CENTER)
-e_user = Entry(frame_login, width=30, justify=LEFT, font=('ivy 15 bold'), highlightthickness=1, relief="solid")
-e_user.place(x=450, y=200, anchor=CENTER)
+    l_titulo = Label(frame_login, text="Faça seu login", font=('Ivy 20 bold'), bg=co1, fg=co6)
+    l_titulo.place(x=450, y=50, anchor=CENTER)
 
-l_senha = Label(frame_login, text="Senha", font=('Ivy 15 bold'), bg=co1, fg=co6)
-l_senha.place(x=450, y=250, anchor=CENTER)
-e_senha = Entry(frame_login, width=30, justify=LEFT, font=('Ivy 15 bold'),show="*", highlightthickness=1, relief="solid")
-e_senha.place(x=450, y=300,anchor=CENTER)
+    l_user= Label(frame_login,text="Usuario", font=('Ivy 15 bold'), bg=co1, fg=co6)
+    l_user.place(x=450, y=150, anchor=CENTER)
+    e_user = Entry(frame_login, width=30, justify=LEFT, font=('ivy 15 bold'), highlightthickness=1, relief="solid")
+    e_user.place(x=450, y=200, anchor=CENTER)
 
-l_enter= Button(frame_login, command=verificar_logion, text="Enter", font=('Ivy 15 bold'), width=10, overrelief=RIDGE, relief="solid", bg=co1, fg=co6)
-l_enter.place(x=450, y=350, anchor=CENTER)
+    l_senha = Label(frame_login, text="Senha", font=('Ivy 15 bold'), bg=co1, fg=co6)
+    l_senha.place(x=450, y=250, anchor=CENTER)
+    e_senha = Entry(frame_login, width=30, justify=LEFT, font=('Ivy 15 bold'),show="*", highlightthickness=1, relief="solid")
+    e_senha.place(x=450, y=300,anchor=CENTER)
 
-l_cadastro_senha = Button(frame_login,command=cad_usuario, text="Cadastrar Usuario", font=('Ivy 15 bold'), compound=LEFT, width=20, overrelief=RIDGE, relief="solid", bg=co1, fg=co6)
-l_cadastro_senha.place(x=450, y=400, anchor=CENTER)
+    l_enter= Button(frame_login, command=verificar_logion, text="Enter", font=('Ivy 15 bold'), width=10, overrelief=RIDGE, relief="solid", bg=co1, fg=co6)
+    l_enter.place(x=450, y=350, anchor=CENTER)
 
-l_rodape = Label(frame_login,text="Desenvolvido por: VellosoDev", font=('Ivy 10 bold'), bg=co1, fg=co6, anchor=CENTER, relief=RAISED)
-l_rodape.place(x=450, y=500, anchor=CENTER)
+    l_cadastro_senha = Button(frame_login,command=cad_usuario, text="Cadastrar Usuario", font=('Ivy 15 bold'), compound=LEFT, width=20, overrelief=RIDGE, relief="solid", bg=co1, fg=co6)
+    l_cadastro_senha.place(x=450, y=400, anchor=CENTER)
+
+    l_rodape = Label(frame_login,text="Desenvolvido por: VellosoDev", font=('Ivy 10 bold'), bg=co1, fg=co6, anchor=CENTER, relief=RAISED)
+    l_rodape.place(x=450, y=500, anchor=CENTER)
 
 
 
@@ -94,7 +96,7 @@ def tela_cadastrar_usuario():
         criar_login(lista)
         
         messagebox.showinfo("Sucesso", "Usuario cadastrado com sucesso!")
-        
+        login()
         e_usuario.delete(0, END)
         e_senha.delete(0, END)
     
@@ -115,12 +117,6 @@ def tela_cadastrar_usuario():
 
     l_enter= Button(frame_login,command= cadastrar_usuario, text="Enter", font=('Ivy 15 bold'), width=10, overrelief=RIDGE, relief="solid", bg=co1, fg=co6)
     l_enter.place(x=450, y=350, anchor=CENTER)
-
-    l_voltar= Button(frame_login,command=root.destroy, text="Feche para atualizar o software", font=('Ivy 15 bold'), compound=LEFT, width=40, overrelief=RIDGE, relief="solid", bg=co1, fg=co7)
-    l_voltar.place(x=450, y=400, anchor=CENTER)
-    
-    
-    
 
 ############################################################################################################################################
 ###################################### PAINEL PRINCIPAL ##################################################################################
@@ -371,43 +367,35 @@ def ml_rota():
         except IndexError:
             messagebox.showerror('Erro', 'Selecione um dos alunos na tabela')
 
-    def abrir_calendario():
+
+    def calendario():
         def pegar_data():
-            data = cal.selection_get()
+            data_selecionada = cal.selection_get()
+            e_data.delete(0, END)
+            e_data.insert(0, data_selecionada.strftime("%d/%m/%Y"))
 
-            # Obter dia da semana em inglês
-            dia_semana = data.strftime('%A')
-
-            # Traduzir para português
-            dia_semana = {
-                "Monday": "Segunda-feira",
-                "Tuesday": "Terça-feira",
-                "Wednesday": "Quarta-feira",
-                "Thursday": "Quinta-feira",
-                "Friday": "Sexta-feira",
-                "Saturday": "Sábado",
-                "Sunday": "Domingo"
+            # Mapear o dia da semana
+            dias_traduzidos = {
+                0: "Segunda-feira",
+                1: "Terça-feira",
+                2: "Quarta-feira",
+                3: "Quinta-feira",
+                4: "Sexta-feira",
+                5: "Sábado",
+                6: "Domingo"
             }
 
-            dia_pt = dia_semana.get(dia_semana, "")
+            dia_semana_num = data_selecionada.weekday()  # 0=Segunda, ..., 6=Domingo
+            dia_semana_pt = dias_traduzidos[dia_semana_num]
 
-            # Inserir a data no campo Data
-            e_data.delete(0, END)
-            e_data.insert(0, data.strftime('%d/%m/%Y'))
-
-            # Inserir o dia da semana no campo Dia da Semana
             e_d_semana.delete(0, END)
-            e_d_semana.insert(0, dia_pt)
+            e_d_semana.insert(0, dia_semana_pt)
 
-            # Fechar calendário
             calendario_root.destroy()
 
-        # Janela do calendário
         calendario_root = Toplevel()
         calendario_root.title("Selecionar Data")
         calendario_root.resizable(width=False, height=False)
-
-        # Centralizar na tela
         largura_root = 200
         altura_root = 270
         largura_tela = calendario_root.winfo_screenwidth()
@@ -416,11 +404,9 @@ def ml_rota():
         pos_y = (altura_tela - altura_root) // 2
         calendario_root.geometry(f"{largura_root}x{altura_root}+{pos_x}+{pos_y}")
 
-        # Calendário
         cal = Calendar(calendario_root, selectmode="day", date_pattern="dd/mm/yyyy")
         cal.pack(pady=20)
 
-        # Botão selecionar
         Button(calendario_root, text="Selecionar", command=pegar_data).pack(pady=10)
     #################---------BOTÕES------##################################################################################
     bt_adicionar = Button(frame_botao, command=cadastrar_dados, text="Adicionar", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
@@ -445,7 +431,7 @@ def ml_rota():
     bt_voltar.grid(row=0, column=7)
     
     #################--------LABEL------##################################################################################
-    bt_calendario = Button(frame_baixo, text="Data", command=abrir_calendario)
+    bt_calendario = Button(frame_baixo, text="Data", command=calendario)
     bt_calendario.place(x=10, y=10)
     e_data = Entry(frame_baixo, width=10, justify=LEFT, font=('Ivy 10 bold'),  relief='solid')
     e_data.place(x=70, y=10)  
@@ -541,6 +527,6 @@ def ml_rota():
 
 
 
-
+login()
 root.mainloop()
 ml_rota()
