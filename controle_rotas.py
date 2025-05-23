@@ -376,50 +376,47 @@ def ml_rota():
         except IndexError:
             messagebox.showerror('Erro', 'Selecione um dos alunos na tabela')
 
-    def calendario():
-        
+    def abrir_calendario():
         def pegar_data():
-            data_selecionada = cal.selection_get()
-            e_data.delete(0, END)
-            e_data.insert(0, data_selecionada.strftime("%d/%m/%Y"))
-        
-            # Mostrar automaticamente o dia da semana:
-            dia_semana = data_selecionada.strftime("%A")  # Dia da semana em inglês
+            data = cal.selection_get()
+            # Obter dia da semana em inglês
+            dia_semana = data.strftime("%A")
             # Traduzir para português
-            dias_traduzidos = {
-                    "Monday": "Segunda-feira",
-                    "Tuesday": "Terça-feira",
-                    "Wednesday": "Quarta-feira",
-                    "Thursday": "Quinta-feira",
-                    "Friday": "Sexta-feira",
-                    "Saturday": "Sábado",
-                    "Sunday": "Domingo"
+            dias_semana = {
+                "Monday": "Segunda-feira",
+                "Tuesday": "Terça-feira",
+                "Wednesday": "Quarta-feira",
+                "Thursday": "Quinta-feira",
+                "Friday": "Sexta-feira",
+                "Saturday": "Sábado",
+                "Sunday": "Domingo"
             }
-            dia_semana_pt = dias_traduzidos[dia_semana]
+            dia_pt = dias_semana.get(dia_semana, "")
+            # Formatar data e dia da semana
+            texto = f"{data.strftime('%d/%m/%Y')} - {dia_pt}"
+            # Inserir no Entry
+            e_data.delete(0, END)
+            e_data.insert(0, texto)
+            # Fechar o calendário
+            janela_cal.destroy()
 
-            # Atualiza o campo de dia da semana
-            e_d_semana.delete(0, END)
-            e_d_semana.insert(0, dia_semana_pt)
-
-            calendario.destroy()
-
-        calendario = Toplevel(root)
-        calendario.title("Calendário")
-        calendario.resizable(width=False, height=False)
-
+        # Criar nova janela para o calendário
+        janela_cal = Toplevel(root)
+        janela_cal.title("Calendário")
+        janela_cal.resizable(False, False)
+        janela_cal.geometry("250x250")
         largura_root = 200
         altura_root = 270
-        largura_tela = calendario.winfo_screenwidth()
-        altura_tela = calendario.winfo_screenheight()
+        largura_tela = janela_cal.winfo_screenwidth()
+        altura_tela = janela_cal.winfo_screenheight()
         pos_x = (largura_tela - largura_root) // 2
         pos_y = (altura_tela - altura_root) // 2
-        calendario.geometry(f"{largura_root}x{altura_root}+{pos_x}+{pos_y}")
+        janela_cal.geometry(f"{largura_root}x{altura_root}+{pos_x}+{pos_y}")
 
-        cal = Calendar(calendario, selectmode="day", date_pattern="dd/mm/yyyy")
+        cal = Calendar(janela_cal, selectmode="day", date_pattern="dd/mm/yyyy")
         cal.pack(pady=20)
 
-        Button(calendario, text="Selecionar", command=pegar_data).pack(pady=10)
-
+        Button(janela_cal, text="Selecionar", command=pegar_data).pack(pady=10)
     #################---------BOTÕES------##################################################################################
     bt_adicionar = Button(frame_botao, command=cadastrar_dados, text="Adicionar", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_adicionar.grid(row=0, column=1)
@@ -443,7 +440,7 @@ def ml_rota():
     bt_voltar.grid(row=0, column=7)
     
     #################--------LABEL------##################################################################################
-    bt_calendario = Button(frame_baixo, text="Data", command=calendario)
+    bt_calendario = Button(frame_baixo, text="Data", command=abrir_calendario)
     bt_calendario.place(x=10, y=10)
     e_data = Entry(frame_baixo, width=10, justify=LEFT, font=('Ivy 10 bold'),  relief='solid')
     e_data.place(x=70, y=10)  
