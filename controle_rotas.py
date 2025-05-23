@@ -378,13 +378,18 @@ def ml_rota():
 
     def abrir_calendario():
         def pegar_data():
+            
+            data_selecionada = cal.selection_get()
+            e_data.delete(0, END)
+            e_data.insert(0, data_selecionada.strftime("%d/%m/%Y"))
+    
             data = cal.selection_get()
             # Obter dia da semana em inglês
             dia_semana = data.strftime("%A")
             # Traduzir para português
             dias_semana = {
                 "Monday": "Segunda-feira",
-                "Tuesday": "Terça-feira",
+            "Tuesday": "Terça-feira",
                 "Wednesday": "Quarta-feira",
                 "Thursday": "Quinta-feira",
                 "Friday": "Sexta-feira",
@@ -395,28 +400,30 @@ def ml_rota():
             # Formatar data e dia da semana
             texto = f"{data.strftime('%d/%m/%Y')} - {dia_pt}"
             # Inserir no Entry
-            e_data.delete(0, END)
-            e_data.insert(0, texto)
+            e_d_semana.delete(0, END)
+            e_d_semana.insert(0, texto)
             # Fechar o calendário
-            janela_cal.destroy()
+            calendario.destroy()
 
         # Criar nova janela para o calendário
-        janela_cal = Toplevel(root)
-        janela_cal.title("Calendário")
-        janela_cal.resizable(False, False)
-        janela_cal.geometry("250x250")
-        largura_root = 200
-        altura_root = 270
-        largura_tela = janela_cal.winfo_screenwidth()
-        altura_tela = janela_cal.winfo_screenheight()
+        calendario = Toplevel(root)
+        calendario.title("Selecionar Data")
+        calendario.resizable(False, False)
+        # Centralizar a janela
+        largura_root = 250
+        altura_root = 250
+        largura_tela = calendario.winfo_screenwidth()
+        altura_tela =calendario.winfo_screenheight()
         pos_x = (largura_tela - largura_root) // 2
         pos_y = (altura_tela - altura_root) // 2
-        janela_cal.geometry(f"{largura_root}x{altura_root}+{pos_x}+{pos_y}")
+        calendario.geometry(f"{largura_root}x{altura_root}+{pos_x}+{pos_y}")
 
-        cal = Calendar(janela_cal, selectmode="day", date_pattern="dd/mm/yyyy")
+        # Widget Calendar
+        cal = Calendar(calendario, selectmode="day", date_pattern="dd/mm/yyyy")
         cal.pack(pady=20)
 
-        Button(janela_cal, text="Selecionar", command=pegar_data).pack(pady=10)
+        # Botão Selecionar
+        Button(calendario, text="Selecionar", command=pegar_data).pack(pady=10)
     #################---------BOTÕES------##################################################################################
     bt_adicionar = Button(frame_botao, command=cadastrar_dados, text="Adicionar", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_adicionar.grid(row=0, column=1)
@@ -500,7 +507,6 @@ def ml_rota():
         # Atualizar os valores totais nos Entry
         atualizar_entry_valor_rota()
         # atualizar_e_v_mes()  # Removed as it is not defined
-
 
         app_nome = Label(frame_tabela, text="Registros de Rotas", height=1, pady=0, padx=0,relief="flat", anchor="center", font=('Ivy 10 bold'),bg=co6, fg=co0)
         app_nome.grid(row=0, column=0, padx=0, pady=0, sticky="nsew")
