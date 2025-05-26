@@ -1296,6 +1296,8 @@ def abastecimento():
         painel()
 
     ################---------CONFIGURAÇÃO DE DADOS------#################################################################################
+    v_mes_var = tk.StringVar()
+    
     def calendario():
         def pegar_data():
             data_selecionada = cal.selection_get()
@@ -1336,8 +1338,7 @@ def abastecimento():
         cal.pack(pady=20)
 
         Button(calendario_root, text="Selecionar", command=pegar_data).pack(pady=10)
-        
-        
+    
     def cadastrar_dados():
         data = e_data.get()
         dia_semana = e_d_semana.get()
@@ -1473,9 +1474,6 @@ def abastecimento():
 
         except IndexError:
             messagebox.showerror('Erro', 'Selecione um dos alunos na tabela')                 
-
-
-
 
 
     #################---------BOTÕES------##################################################################################
