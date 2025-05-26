@@ -132,6 +132,44 @@ def excluir_dados_ee(i):
         cur.execute(query, (i))
 
 
+# Tabela Abastecimento
+def criar_dados_abastecimento(i):
+    with con:
+        cur = con.cursor()
+        query = "INSERT INTO Abastecimento(data,dia_semana,valor_abastecimento,litros) values(?,?,?,?)"
+        cur.execute(query, i)
+        con.commit()  # Commit para salvar as alterações no banco de dado
 
+def ver_dados_abastecimento():
+    try:
+        with con:  # Certifique-se de que `con` (conexão) está definida globalmente
+            cur = con.cursor()
+            cur.execute('SELECT * FROM Abastecimento')
+            return cur.fetchall()
+    except Exception as e:
+        print(f"Erro ao buscar dados: {e}")
+        return []
 
- 
+def calcular_total_abastecimento():
+    try:
+        with con:
+            cur = con.cursor()
+            cur.execute('SELECT SUM(valor) FROM Abastecimento')
+            resultado = cur.fetchone()[0]
+            return resultado if resultado is not None else 0
+    except Exception as e:
+        print(f"Erro ao calcular total de abastecimento: {e}")
+        return 0
+
+def atualizar_dados_abastecimento(i):
+    with con:
+        cur = con.cursor()
+        query = "UPDATE Abastecimento SET data=?,dia_semana=?,valor_abastecimento=?,litros=?,total=? WHERE id=?"
+        cur.execute(query, i)
+
+def excluir_dados_abastecimento(i):
+    with con:
+        cur = con.cursor()
+        query = "DELETE FROM Abastecimento WHERE id=?"
+        cur.execute(query, (i,))
+

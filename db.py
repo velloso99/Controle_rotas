@@ -85,4 +85,20 @@ try:
             )""")
         print("Tabela Rota Eu Entrego criada com sucesso!")
 except sqlite3.Error as e:
-    print("Erro ao criar Rota Eu Entrego!")      
+    print("Erro ao criar Rota Eu Entrego!")  
+    
+#Tabela Abastecimento
+try:
+    with con:
+        cur= con.cursor()
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS Abastecimento(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                data TEXT,
+                dia_semana TEXT,
+                valor_abastecimento TEXT,
+                litros TEXT
+            )""")
+        print("Tabela Abastecimento criada com sucesso!")
+except sqlite3.Error as e:
+    print("Erro ao criar Abastecimento!")      

@@ -28,8 +28,6 @@ frame_login.place(x=0, y=0)
 ######################################################################################
 ################Login#################################################################
 ######################################################################################
-
-
 def login():
     
 
@@ -175,7 +173,7 @@ def painel():
     bt_euentrego = Button(frame_botao, command=ee_rota, text="Eu Entrego", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_euentrego.grid(row=0, column=2, padx=1, pady=1)
 
-    bt_abast = Button(frame_botao, command=None, text="Abastecimento", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_abast = Button(frame_botao, command=abastecimento, text="Abastecimento", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_abast.grid(row=0, column=3, padx=1, pady=1)
 
     bt_lucroanual = Button(frame_botao, command=None, text="Lucro Anual", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
@@ -361,7 +359,7 @@ def ml_rota():
             bt_update.grid(row=0, column=8)
 
         except IndexError:
-            messagebox.showerror('Erro', 'Selecione um dos alunos na tabela')
+            messagebox.showerror('Erro', 'Selecione um dos itens na tabela')
 
     def excluir_dados():
         try:
@@ -1266,6 +1264,318 @@ def ee_rota():
             except Exception as e:
                 print(f"Erro ao inserir item na tabela: {e}")
     mostrar_e()
+
+
+def abastecimento():
+    frame_cima = Frame(root, width=900, height=50, bg=co1, relief='flat')
+    frame_cima.grid(row=0, column=0, padx=0, pady=0, sticky=NSEW)
+    
+    frame_botao = Frame(root, width=900, height=50, bg=co1, relief='flat')
+    frame_botao.grid(row=1, column=0, padx=0, pady=0, sticky=NSEW)
+
+    frame_baixo = Frame(root, width=900, height=200, bg=co1, relief='flat')
+    frame_baixo.grid(row=2, column=0, padx=0, pady=0, sticky=NSEW)
+    
+    frame_tabela = Frame(root, width=900, height=350, bg=co1, relief='flat')
+    frame_tabela.grid(row=3, column=0, padx=0, pady=0, sticky=NSEW)
+    
+    #################---------TITULO------##################################################################################
+    l_titulo = Label(frame_cima, text="Abastecimento", anchor=CENTER, font=('Ivy 13 bold'), bg=co6, fg=co0)
+    l_titulo.place(x=0,y=0 ,relwidth=1 ,relheight=1)
+
+    #################---------CONFIGURAÇÕES BOTÕES------##################################################################################
+    def voltar_painel():
+        for widget in frame_cima.winfo_children():
+            widget.destroy()
+        for widget in frame_baixo.winfo_children():
+            widget.destroy()
+        for widget in frame_botao.winfo_children():
+            widget.destroy()
+        for widget in frame_tabela.winfo_children():
+            widget.destroy()
+        painel()
+
+    ################---------CONFIGURAÇÃO DE DADOS------#################################################################################
+    def calendario():
+        def pegar_data():
+            data_selecionada = cal.selection_get()
+            e_data.delete(0, END)
+            e_data.insert(0, data_selecionada.strftime("%d/%m/%Y"))
+
+            # Mapear o dia da semana
+            dias_traduzidos = {
+                0: "Segunda-feira",
+                1: "Terça-feira",
+                2: "Quarta-feira",
+                3: "Quinta-feira",
+                4: "Sexta-feira",
+                5: "Sábado",
+                6: "Domingo"
+            }
+
+            dia_semana_num = data_selecionada.weekday()  # 0=Segunda, ..., 6=Domingo
+            dia_semana_pt = dias_traduzidos[dia_semana_num]
+
+            e_d_semana.delete(0, END)
+            e_d_semana.insert(0, dia_semana_pt)
+
+            calendario_root.destroy()
+
+        calendario_root = Toplevel()
+        calendario_root.title("Selecionar Data")
+        calendario_root.resizable(width=False, height=False)
+        largura_root = 200
+        altura_root = 270
+        largura_tela = calendario_root.winfo_screenwidth()
+        altura_tela = calendario_root.winfo_screenheight()
+        pos_x = (largura_tela - largura_root) // 2
+        pos_y = (altura_tela - altura_root) // 2
+        calendario_root.geometry(f"{largura_root}x{altura_root}+{pos_x}+{pos_y}")
+
+        cal = Calendar(calendario_root, selectmode="day", date_pattern="dd/mm/yyyy")
+        cal.pack(pady=20)
+
+        Button(calendario_root, text="Selecionar", command=pegar_data).pack(pady=10)
+        
+        
+    def cadastrar_dados():
+        data = e_data.get()
+        dia_semana = e_d_semana.get()
+
+        # Verifica campos obrigatórios de texto antes de conversões
+        if not all([data, dia_semana, e_valor_abastecido.get(), e_litros.get()]):
+            messagebox.showerror("Erro", "Preencha todos os campos!")
+            return
+
+        try:
+            valor_abastecido = float(e_valor_abastecido.get())
+            litros = float(e_litros.get())
+        except ValueError:
+            messagebox.showerror("Erro", "Verifique se os valores numéricos estão corretos.")
+            return
+
+        lista = [data, dia_semana, valor_abastecido, litros]
+
+        # Inserindo no banco de dados
+        criar_dados_abastecimento(lista)
+
+        messagebox.showinfo("Sucesso", "Dados cadastrados com sucesso!")
+
+        # Limpa os campos após o cadastro
+        for campo in [e_data, e_d_semana, e_valor_abastecido, e_litros]:
+            campo.delete(0, END)
+
+            
+
+        lista = [data, dia_semana, valor_abastecido, litros]
+
+        # Inserindo no banco de dados
+        criar_dados_ml(lista)
+
+        messagebox.showinfo("Sucesso", "Dados cadastrados com sucesso!")
+
+        # Limpa os campos após o cadastro
+        for campo in [e_data, e_d_semana, e_valor_abastecido, e_litros]:
+            campo.delete(0, END)
+
+        lista = [data, dia_semana, valor_abastecido, litros]
+
+        # Inserindo no banco de dados
+        criar_dados_abastecimento(lista)
+
+        messagebox.showinfo("Sucesso", "Dados cadastrados com sucesso!")
+        
+    def calcular_total():
+        try:
+            with con:
+                cur = con.cursor()
+                cur.execute('SELECT SUM(valor_abastecimento) FROM Abastecimento')
+                resultado = cur.fetchone()[0]
+                return resultado if resultado is not None else 0
+        except Exception as e:
+            print(f"Erro ao calcular total de valor_abastecimento: {e}")
+            return 0
+
+    def atualizar_entry_valor_abastecimento():
+        total = calcular_total()
+        v_mes_var.set(f"R$ {total:.2f}")
+
+    def update_dados():
+        try:
+            tree_itens = tree_lucro.focus()
+            tree_dicionario = tree_lucro.item(tree_itens)
+            tree_lista = tree_dicionario['values']
+
+            valor_id = tree_lista[0]
+
+        # Limpando campos
+            for campo in [e_data, e_d_semana, e_valor_abastecido, e_litros]:
+                campo.delete(0, END)
+
+            # Preenchendo os campos com os valores selecionados
+            e_data.insert(0, tree_lista[1])
+            e_d_semana.insert(0, tree_lista[2])
+            e_valor_abastecido.insert(0, tree_lista[3])
+            e_litros.insert(0, tree_lista[4])
+
+            # Função para salvar alterações
+            def update():
+                # Coleta de dados
+                dados = [
+                    e_data.get(),
+                    e_d_semana.get(),
+                    e_valor_abastecido.get(),
+                    e_litros.get(),
+                    valor_id
+                ]
+
+                if not all(dados[:-1]):
+                    messagebox.showerror('Erro', 'Preencha todos os campos!')
+                    return
+
+                try:
+                    atualizar_dados_ml(dados)
+                    messagebox.showinfo('Sucesso', 'Os dados foram atualizados com sucesso!')
+
+                    for campo in [e_data, e_d_semana, e_valor_abastecido, e_litros]:
+                        campo.delete(0, END)
+
+                    mostrar_abastecimento()
+
+                    if 'bt_update' in globals() and bt_update.winfo_exists():
+                        bt_update.destroy()
+
+                except Exception as e:
+                    messagebox.showerror('Erro', f'Erro ao atualizar: {e}')
+
+            # Botão de salvar alterações
+            bt_update = Button(frame_botao, command=update, text="Salvar Atualizações", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+            bt_update.grid(row=0, column=8)
+
+        except IndexError:
+            messagebox.showerror('Erro', 'Selecione um dos alunos na tabela')
+
+    def excluir_dados():
+        try:
+            tree_itens = tree_lucro.focus()
+            tree_dicionario = tree_lucro.item(tree_itens)
+            tree_lista = tree_dicionario['values']
+
+            valor_id = tree_lista[0]
+
+            # Excluindo os dados
+            excluir_dados_abastecimento(valor_id)
+
+            messagebox.showinfo('Sucesso', 'Os dados foram excluídos com sucesso!')
+
+            # Atualizando a tabela
+            mostrar_abastecimento()
+
+        except IndexError:
+            messagebox.showerror('Erro', 'Selecione um dos alunos na tabela')                 
+
+
+
+
+
+    #################---------BOTÕES------##################################################################################
+    bt_adicionar = Button(frame_botao, command=cadastrar_dados, text="Adicionar", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_adicionar.grid(row=0, column=0, padx=1, pady=1)
+
+    bt_excluir = Button(frame_botao, command=excluir_dados, text="Excluir", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_excluir.grid(row=0, column=1, padx=1, pady=1)
+
+    bt_imprimir = Button(frame_botao, command=None, text="Imprimir", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_imprimir.grid(row=0, column=2, padx=1, pady=1)
+
+    bt_calc = Button(frame_botao, command=None, text="Calcular", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_calc.grid(row=0, column=3, padx=1, pady=1)
+
+    bt_rela = Button(frame_botao, command=None, text="Relatório", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_rela.grid(row=0, column=4, padx=1, pady=1)
+
+    bt_atualizar = Button(frame_botao, command=update_dados, text="Atualizar", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_atualizar.grid(row=0, column=5, padx=1, pady=1)
+
+    bt_voltar = Button(frame_botao, command=voltar_painel, text="Painel", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_voltar.grid(row=0, column=6, padx=1, pady=1)
+
+    #################--------LABEL------##################################################################################
+    bt_calendario = Button(frame_baixo, text="Data", command=calendario)
+    bt_calendario.place(x=10, y=10)
+    e_data = Entry(frame_baixo, width=10, justify=LEFT, font=('Ivy 10 bold'),  relief='solid')
+    e_data.place(x=70, y=10)  
+
+    l_d_semana = Label(frame_baixo, text="Dia da Semana:", font=('Ivy 10 bold'), bg=co1, fg=co6)
+    l_d_semana.place(x=190, y=10)
+    e_d_semana = Entry(frame_baixo, width=16, justify=LEFT, font=('Ivy 10 bold'), relief='solid')
+    e_d_semana.place(x=305, y=10)
+
+    l_valor_abastecido = Label(frame_baixo, text="Valor Abastecido R$:", font=('Ivy 10 bold'), bg=co1, fg=co6)
+    l_valor_abastecido.place(x=10, y=40)
+    e_valor_abastecido= Entry(frame_baixo, width=10, justify=CENTER, font=('Ivy 10 bold'),  relief='solid')
+    e_valor_abastecido.place(x=150, y=40)
+
+    l_litros = Label(frame_baixo, text="Litros:", font=('Ivy 10 bold'), bg=co1, fg=co6)
+    l_litros.place(x=230, y=40)
+    e_litros = Entry(frame_baixo, width=10, justify=CENTER, font=('Ivy 10 bold'),  relief='solid')
+    e_litros.place(x=280, y=40)
+
+    l_v_mês = Label(frame_baixo, text="Valor Mensal R$:", font=('Ivy 10 bold'), bg=co1, fg=co6)
+    l_v_mês.place(x=230, y=40)
+    e_v_mês = Entry(frame_baixo,textvariable=v_mes_var, width=20, justify=CENTER, font=('Ivy 10 bold'),  relief='solid', bg=co1, fg=co6)
+    e_v_mês.place(x=340, y=40)
+
+    #Tabela Mercado Livre
+    def mostrar_abastecimento():
+
+        # Atualizar os valores totais nos Entry
+        atualizar_entry_valor_abastecimento()
+        # atualizar_e_v_mes()  # Removed as it is not defined
+
+        
+        app_nome = Label(frame_tabela, text="Registros de Rotas", height=1, pady=0, padx=0, relief="flat", anchor=NW, font=('Ivy 10 bold'), bg=co1, fg=co6)
+        app_nome.place(x=10, y=10)
+
+        # Definição do cabeçalho
+        list_header = ['id', 'Data', 'Dia da Semana', 'Valor Abastecimento R$', 'Litros']
+
+        # Obtém os dados do estoque
+        df_list = ver_dados_abastecimento() # Certifique-se de que essa função retorna os dados corretamente
+
+        global tree_registro
+
+        # Criando a Treeview
+        tree_registro = ttk.Treeview(frame_tabela, selectmode="extended", columns=list_header, show="headings")
+
+        # Barras de rolagem
+        vsb = ttk.Scrollbar(frame_tabela, orient="vertical", command=tree_registro.yview)
+        hsb = ttk.Scrollbar(frame_tabela, orient="horizontal", command=tree_registro.xview)  # Corrigido aqui
+
+        tree_registro.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
+    
+        # Posicionando os widgets
+        tree_registro.grid(column=0, row=1, sticky='nsew')
+        vsb.grid(column=1, row=1, sticky='ns')
+        hsb.grid(column=0, row=2, sticky='ew')
+
+        frame_tabela.grid_rowconfigure(0, weight=12)
+
+        # Configuração das colunas
+        hd = ["nw", "center", "center", "center", "center"]
+        h = [40, 80, 100, 100, 80]
+    
+        for n, col in enumerate(list_header):
+            tree_registro.heading(col, text=col.title(), anchor=NW)
+            tree_registro.column(col, width=h[n], anchor=hd[n])
+
+        # Inserindo os dados
+        if df_list:
+            for item in df_list:
+                    tree_registro.insert("", "end", values=item)
+
+    mostrar_abastecimento()
+
 
 
 login()
