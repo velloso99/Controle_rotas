@@ -1402,8 +1402,8 @@ def abastecimento():
 
     def update_dados():
         try:
-            tree_itens = tree_lucro.focus()
-            tree_dicionario = tree_lucro.item(tree_itens)
+            tree_itens = tree_registro.focus()
+            tree_dicionario = tree_registro.item(tree_itens)
             tree_lista = tree_dicionario['values']
 
             valor_id = tree_lista[0]
@@ -1457,8 +1457,8 @@ def abastecimento():
 
     def excluir_dados():
         try:
-            tree_itens = tree_lucro.focus()
-            tree_dicionario = tree_lucro.item(tree_itens)
+            tree_itens = tree_registro.focus()
+            tree_dicionario = tree_registro.item(tree_itens)
             tree_lista = tree_dicionario['values']
 
             valor_id = tree_lista[0]
@@ -1522,9 +1522,9 @@ def abastecimento():
     e_litros.place(x=280, y=40)
 
     l_v_mês = Label(frame_baixo, text="Valor Mensal R$:", font=('Ivy 10 bold'), bg=co1, fg=co6)
-    l_v_mês.place(x=230, y=40)
+    l_v_mês.place(x=350, y=40)
     e_v_mês = Entry(frame_baixo,textvariable=v_mes_var, width=20, justify=CENTER, font=('Ivy 10 bold'),  relief='solid', bg=co1, fg=co6)
-    e_v_mês.place(x=340, y=40)
+    e_v_mês.place(x=460, y=40)
 
     #Tabela Mercado Livre
     def mostrar_abastecimento():
