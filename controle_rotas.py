@@ -213,7 +213,7 @@ def ml_rota():
     l_titulo.place(x=0, y=0, relwidth=1, relheight=1)
     #################---------CONFIGURAÇÕES BOTÕES------##################################################################################
     def voltar_painel():
-        for widget in frame_cima.winfo_children():
+        for widget in frame_titulo.winfo_children():
             widget.destroy()
         for widget in frame_baixo.winfo_children():
             widget.destroy()
@@ -424,25 +424,25 @@ def ml_rota():
         Button(calendario_root, text="Selecionar", command=pegar_data).pack(pady=10)
     #################---------BOTÕES------##################################################################################
     bt_adicionar = Button(frame_botao, command=cadastrar_dados, text="Adicionar", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_adicionar.place(x=10, y=10)
+    bt_adicionar.grid(row=0, column=0, padx=1, pady=1)
 
     bt_excluir = Button(frame_botao, command=excluir_dados, text="Excluir", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_excluir.place(x=100, y=10)
+    bt_excluir.grid(row=0, column=1, padx=1, pady=1)
 
     bt_imprimir = Button(frame_botao, command=None, text="Imprimir", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_imprimir.place(x=200, y=10)
+    bt_imprimir.grid(row=0, column=2, padx=1, pady=1)
 
     bt_calc = Button(frame_botao, command=calcular_media_combustivel, text="Calcular", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_calc.place(x=300, y=10)
+    bt_calc.grid(row=0, column=3, padx=1, pady=1)
 
     bt_rela = Button(frame_botao, command=None, text="Relatório", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_rela.place(x=400, y=10)
+    bt_rela.grid(row=0, column=4, padx=1, pady=1)
 
     bt_atualizar = Button(frame_botao, command=update_dados, text="Atualizar", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_atualizar.place(x=500, y=10)
+    bt_atualizar.grid(row=0, column=5, padx=1, pady=1)
 
     bt_voltar = Button(frame_botao, command=voltar_painel, text="Painel", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_voltar.place(x=600, y=10)
+    bt_voltar.grid(row=0, column=6, padx=1, pady=1)
 
     #################--------LABEL------##################################################################################
     bt_calendario = Button(frame_baixo, text="Data", command=calendario)
@@ -452,13 +452,13 @@ def ml_rota():
 
     l_d_semana = Label(frame_baixo, text="Dia da Semana:", font=('Ivy 10 bold'), bg=co1, fg=co6)
     l_d_semana.place(x=190, y=10)
-    e_d_semana = Entry(frame_baixo, width=12, justify=CENTER, font=('Ivy 10 bold'), relief='solid')
+    e_d_semana = Entry(frame_baixo, width=16, justify=LEFT, font=('Ivy 10 bold'), relief='solid')
     e_d_semana.place(x=305, y=10)
 
     l_v_comb = Label(frame_baixo, text="Valor da Bomba R$:", font=('Ivy 10 bold'), bg=co1, fg=co6)
-    l_v_comb.place(x=390, y=10)
+    l_v_comb.place(x=430, y=10)
     e_v_comb = Entry(frame_baixo, width=10, justify=CENTER, font=('Ivy 10 bold'),  relief='solid')
-    e_v_comb.place(x=520, y=10)
+    e_v_comb.place(x=580, y=10)
 
     l_v_mês = Label(frame_baixo, text="Valor Mensal R$:", font=('Ivy 10 bold'), bg=co1, fg=co6)
     l_v_mês.place(x=390, y=40)
@@ -790,41 +790,41 @@ def sp_rota():
 
     #################---------BOTÕES------##################################################################################
     bt_adicionar = Button(frame_botao, command=cadastrar_dados, text="Adicionar", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_adicionar.grid(row=0, column=1)
+    bt_adicionar.grid(row=0, column=0, padx=1, pady=1)
 
     bt_excluir = Button(frame_botao, command=excluir_dados, text="Excluir", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_excluir.grid(row=0, column=2)
+    bt_excluir.grid(row=0, column=1, padx=1, pady=1)
 
     bt_imprimir = Button(frame_botao, command=None, text="Imprimir", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_imprimir.grid(row=0, column=3)
+    bt_imprimir.grid(row=0, column=2, padx=1, pady=1)
 
     bt_calc = Button(frame_botao, command=calcular_media_combustivel, text="Calcular", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_calc.grid(row=0, column=4)
+    bt_calc.grid(row=0, column=3, padx=1, pady=1)
 
     bt_rela = Button(frame_botao, command=None, text="Relatório", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_rela.grid(row=0, column=5)
+    bt_rela.grid(row=0, column=4, padx=1, pady=1)
 
     bt_atualizar = Button(frame_botao, command=update_dados, text="Atualizar", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_atualizar.grid(row=0, column=6)
+    bt_atualizar.grid(row=0, column=5, padx=1, pady=1)
 
     bt_voltar = Button(frame_botao, command=voltar_painel, text="Painel", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_voltar.grid(row=0, column=7)
-    
+    bt_voltar.grid(row=0, column=6, padx=1, pady=1)
+
     #################--------LABEL------##################################################################################
     bt_calendario = Button(frame_baixo, text="Data", command=calendario)
     bt_calendario.place(x=10, y=10)
     e_data = Entry(frame_baixo, width=10, justify=LEFT, font=('Ivy 10 bold'),  relief='solid')
-    e_data.place(x=70, y=10) 
+    e_data.place(x=70, y=10)  
 
     l_d_semana = Label(frame_baixo, text="Dia da Semana:", font=('Ivy 10 bold'), bg=co1, fg=co6)
     l_d_semana.place(x=190, y=10)
-    e_d_semana = Entry(frame_baixo, width=10, justify=CENTER, font=('Ivy 10 bold'),  relief='solid')
+    e_d_semana = Entry(frame_baixo, width=16, justify=LEFT, font=('Ivy 10 bold'), relief='solid')
     e_d_semana.place(x=305, y=10)
 
     l_v_comb = Label(frame_baixo, text="Valor da Bomba R$:", font=('Ivy 10 bold'), bg=co1, fg=co6)
-    l_v_comb.place(x=390, y=10)
+    l_v_comb.place(x=430, y=10)
     e_v_comb = Entry(frame_baixo, width=10, justify=CENTER, font=('Ivy 10 bold'),  relief='solid')
-    e_v_comb.place(x=520, y=10)
+    e_v_comb.place(x=580, y=10)
 
     l_v_mês = Label(frame_baixo, text="Valor Mensal R$:", font=('Ivy 10 bold'), bg=co1, fg=co6)
     l_v_mês.place(x=390, y=40)
@@ -1156,46 +1156,41 @@ def ee_rota():
 
     #################---------BOTÕES------##################################################################################
     bt_adicionar = Button(frame_botao, command=cadastrar_dados, text="Adicionar", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_adicionar.grid(row=0, column=1)
+    bt_adicionar.grid(row=0, column=0, padx=1, pady=1)
 
     bt_excluir = Button(frame_botao, command=excluir_dados, text="Excluir", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_excluir.grid(row=0, column=2)
+    bt_excluir.grid(row=0, column=1, padx=1, pady=1)
 
     bt_imprimir = Button(frame_botao, command=None, text="Imprimir", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_imprimir.grid(row=0, column=3)
+    bt_imprimir.grid(row=0, column=2, padx=1, pady=1)
 
     bt_calc = Button(frame_botao, command=calcular_media_combustivel, text="Calcular", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_calc.grid(row=0, column=4)
+    bt_calc.grid(row=0, column=3, padx=1, pady=1)
 
     bt_rela = Button(frame_botao, command=None, text="Relatório", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_rela.grid(row=0, column=5)
+    bt_rela.grid(row=0, column=4, padx=1, pady=1)
 
     bt_atualizar = Button(frame_botao, command=update_dados, text="Atualizar", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_atualizar.grid(row=0, column=6)
+    bt_atualizar.grid(row=0, column=5, padx=1, pady=1)
 
     bt_voltar = Button(frame_botao, command=voltar_painel, text="Painel", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
-    bt_voltar.grid(row=0, column=7)
-    
+    bt_voltar.grid(row=0, column=6, padx=1, pady=1)
+
     #################--------LABEL------##################################################################################
     bt_calendario = Button(frame_baixo, text="Data", command=calendario)
     bt_calendario.place(x=10, y=10)
     e_data = Entry(frame_baixo, width=10, justify=LEFT, font=('Ivy 10 bold'),  relief='solid')
-    e_data.place(x=70, y=10) 
+    e_data.place(x=70, y=10)  
 
     l_d_semana = Label(frame_baixo, text="Dia da Semana:", font=('Ivy 10 bold'), bg=co1, fg=co6)
     l_d_semana.place(x=190, y=10)
-    e_d_semana = Entry(frame_baixo, width=10, justify=CENTER, font=('Ivy 10 bold'),  relief='solid')
+    e_d_semana = Entry(frame_baixo, width=16, justify=LEFT, font=('Ivy 10 bold'), relief='solid')
     e_d_semana.place(x=305, y=10)
 
     l_v_comb = Label(frame_baixo, text="Valor da Bomba R$:", font=('Ivy 10 bold'), bg=co1, fg=co6)
-    l_v_comb.place(x=390, y=10)
+    l_v_comb.place(x=430, y=10)
     e_v_comb = Entry(frame_baixo, width=10, justify=CENTER, font=('Ivy 10 bold'),  relief='solid')
-    e_v_comb.place(x=520, y=10)
-
-    l_v_mês = Label(frame_baixo, text="Valor Mensal R$:", font=('Ivy 10 bold'), bg=co1, fg=co6)
-    l_v_mês.place(x=390, y=40)
-    e_v_mês = Entry(frame_baixo,textvariable=v_mes_var, width=10, justify=CENTER, font=('Ivy 10 bold'),  relief='solid', bg=co1, fg=co6)
-    e_v_mês.place(x=510, y=40)
+    e_v_comb.place(x=580, y=10)
 
     l_valor_rota = Label(frame_baixo, text="Valor Rota:", font=('Ivy 10 bold'), bg=co1, fg=co6)
     l_valor_rota.place(x=10, y=40)
