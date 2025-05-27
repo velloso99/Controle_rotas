@@ -203,3 +203,39 @@ def excluir_dados_abastecimento(i):
         query = "DELETE FROM Abastecimento WHERE id=?"
         cur.execute(query, (i,))
 
+# Tabela de dados anuais
+def criar_dados_anuais(i):
+    with con:
+        cur = con.cursor()
+        query = "INSERT INTO Dados_Anuais(mes,valor_total_rota,valor_total_abastecimento,valor_total_lucro,total_valor_rota) values(?,?,?,?,?)"
+        cur.execute(query, i)
+        con.commit()  # Commit para salvar as alterações no banco de dados
+def ver_dados_anuais():
+    try:
+        with con:
+            cur = con.cursor()
+            cur.execute('SELECT * FROM Dados_Anuais')
+            return cur.fetchall()
+    except Exception as e:
+        print(f"Erro ao buscar dados: {e}")
+        return []
+def atualizar_dados_anuais(i):
+    with con:
+        cur = con.cursor()
+        query = "UPDATE Dados_Anuais SET mes=?,valor_total_rota=?,valor_total_abastecimento=?,valor_total_lucro=?,total_valor_rota=? WHERE id=?"
+        cur.execute(query, i)
+def excluir_dados_anuais(i):
+    with con:
+        cur = con.cursor()
+        query = "DELETE FROM Dados_Anuais WHERE id=?"
+        cur.execute(query, (i,))
+
+    
+    
+    
+    
+    
+    
+    
+    
+    

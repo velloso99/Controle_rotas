@@ -101,4 +101,25 @@ try:
             )""")
         print("Tabela Abastecimento criada com sucesso!")
 except sqlite3.Error as e:
-    print("Erro ao criar Abastecimento!")      
+    print("Erro ao criar Abastecimento!")     
+    
+    
+    
+ #Tabela Dados Anuais
+try:
+    with con:
+        cur= con.cursor()
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS Dados_Anuais(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                mes TEXT,
+                total_entregas TEXT,
+                total_devolvidas TEXT,
+                total_km TEXT,
+                total_abastecimento TEXT,
+                total_lucro TEXT,
+                total_valor_rota TEXT
+            )""")
+        print("Tabela Dados Anuais criada com sucesso!")
+except sqlite3.Error as e:
+    print("Erro ao criar Dados Anuais!", e)

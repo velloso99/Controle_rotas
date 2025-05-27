@@ -1,6 +1,7 @@
 from pacotes import *
 from views import *
 import sqlite3
+import calendar
 
 
 # Criando Janela
@@ -347,12 +348,12 @@ def painel():
     def abrir_abastecimento():
         root3.destroy()
         abastecimento()
-    def abrir_lucro_anual():
+    def abrir_dados_anual():
         root3.destroy()
-        lucro_anual()
+        dados_anual()
     def abrir_lucro_mensal():
         root3.destroy()
-        lucro_mensal()
+        relatorios_de_lucro()
     def abrir_contas():
         root3.destroy()
         contas()
@@ -411,7 +412,7 @@ def painel():
     bt_abast = Button(frame_botao, command=abrir_abastecimento, text="Abastecimento", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_abast.grid(row=0, column=3, padx=1, pady=1)
 
-    bt_lucroanual = Button(frame_botao, command=abrir_lucro_anual, text="Lucro Anual", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_lucroanual = Button(frame_botao, command=abrir_dados_anual, text="Dados Anual", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_lucroanual.grid(row=0, column=4, padx=1, pady=1)
 
     bt_lucpormes = Button(frame_botao, command=abrir_lucro_mensal, text="Lucro por Mês", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
@@ -1851,11 +1852,136 @@ def abastecimento():
 
     mostrar_abastecimento()
 
-def lucro_anual():
-    pass
+def dados_anual():
+    root6 = Toplevel(root)
+    root6.title("Dados Anual")
+    root6.geometry("900x600")
+    root6.configure(background=co0)
+    root6.resizable(width=False, height=False)
+    largura_root= 900
+    altura_root= 600
+    #obter tamanho da tela
+    largura_tela = root6.winfo_screenwidth()
+    altura_tela = root6.winfo_screenheight()
+    # Calcular posição para centralizar
+    pos_x = ( largura_tela-largura_root )//2
+    pos_y = (altura_tela - altura_root)//2
+    # Definir geometria da janela (LxA+X+Y)
+    root6.geometry(f"{largura_root}x{altura_root}+{pos_x}+{pos_y}")
+    
+    frame_cima = Frame(root6, width=900, height=50, bg=co1, relief='flat')
+    frame_cima.grid(row=0, column=0, padx=0, pady=0, sticky=NSEW)
 
-def lucro_mensal():
-    pass
+    frame_baixo = Frame(root6, width=900, height=200, bg=co1, relief='flat')
+    frame_baixo.grid(row=1, column=0, padx=0, pady=0, sticky=NSEW)
+
+    l_titulo = Label(frame_cima, text="Dados Anuais", font=('Ivy 12 bold'), bg=co1, fg=co6)
+    l_titulo.place(x=10, y=10)
+    
+    # Valores para o ComboBox
+    rotas = ['Mercado Livre', 'Shopee', 'Eu Entrego']
+    # Criando ComboBox
+    combo_rotas = ttk.Combobox(frame_baixo, values=rotas, font=('Ivy 12'))
+    combo_rotas.set('Selecione')  # Valor inicial
+    combo_rotas.pack(pady=5)
+    
+    
+
+    
+    
+    
+    
+
+
+def relatorios_de_lucro():
+    
+    root7 = Tk()
+    root7.title("Relatórios de Lucro por Mês")
+    root7.geometry("600x400")
+    root7.configure(bg='#ffffff')
+    root7.resizable(False, False)
+
+    # ---------- Mapeamento dos meses ----------
+    meses_pt = {
+        '01': 'Janeiro', '02': 'Fevereiro', '03': 'Março', '04': 'Abril',
+        '05': 'Maio', '06': 'Junho', '07': 'Julho', '08': 'Agosto',
+        '09': 'Setembro', '10': 'Outubro', '11': 'Novembro', '12': 'Dezembro'
+    }
+
+    lista_meses = [f"{nome}" for nome in meses_pt.values()]
+
+    # ---------- Função buscar lucro do mês selecionado ----------
+    def buscar_lucro_mes_selecionado():
+        mes_nome = combo_meses.get()
+
+        # Verifica se selecionou
+        if mes_nome == "Selecione":
+            return
+
+        # Pega o número do mês a partir do nome
+        mes_num = None
+        for k, v in meses_pt.items():
+            if v == mes_nome:
+                mes_num = k
+
+        if not mes_num:
+            return
+
+        # Conecta no banco
+        con = sqlite3.connect('database.db')
+        cursor = con.cursor()
+
+        query = f"""
+            SELECT 
+                strftime('%Y-%m', data) AS mes,
+                SUM(lucro) AS total_lucro
+            FROM (
+                SELECT data, lucro FROM rota_mercado_livre
+                UNION ALL
+                SELECT data, lucro FROM rota_shoppee
+                UNION ALL
+                SELECT data, lucro FROM rota_eu_entrego
+            )
+            WHERE strftime('%m', data) = '{mes_num}'
+            GROUP BY mes
+            ORDER BY mes;
+            """
+
+        cursor.execute(query)
+        resultados = cursor.fetchall()
+
+        # Limpa a Treeview antes de inserir novos dados
+        for item in tree.get_children():
+            tree.delete(item)
+
+        if resultados:
+            for mes, lucro in resultados:
+                ano, mes_n = mes.split('-')
+                nome_mes = meses_pt.get(mes_n, mes_n)
+                tree.insert('', 'end', values=(f"{nome_mes} {ano}", f"R$ {lucro:.2f}"))
+        else:
+            tree.insert('', 'end', values=(f"{mes_nome}", "R$ 0.00"))
+
+        con.close()
+
+    # ---------- Label e ComboBox ----------
+    Label(root7, text="Selecione o mês:", font=('Ivy 12'), bg='#ffffff').pack(pady=10)
+
+    combo_meses = ttk.Combobox(root7, values=lista_meses, font=('Ivy 12'))
+    combo_meses.set('Selecione')
+    combo_meses.pack(pady=5)
+
+    Button(root7, text='Buscar Lucro', command=buscar_lucro_mes_selecionado,
+        font=('Ivy 12 bold'), bg='#3b3b3b', fg='white').pack(pady=10)
+
+    # ---------- Treeview ----------
+    colunas = ('Mês', 'Lucro')
+    tree = ttk.Treeview(root7, columns=colunas, show='headings')
+    tree.heading('Mês', text='Mês')
+    tree.heading('Lucro', text='Lucro (R$)')
+    tree.column('Mês', width=200, anchor=CENTER)
+    tree.column('Lucro', width=150, anchor=CENTER)
+    tree.pack(pady=10)
 
 def contas():
     pass
