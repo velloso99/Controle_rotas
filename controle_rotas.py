@@ -783,7 +783,9 @@ def ml_rota():
     
         for n, col in enumerate(list_header):
             tree_registro.heading(col, text=col.title(), anchor=NW)
-            tree_registro.column(col, width=h[n], anchor=hd[n])
+            # Ensure anchor is a valid literal string
+            anchor_value = hd[n] if hd[n] in ['nw', 'n', 'ne', 'w', 'center', 'e', 'sw', 's', 'se'] else 'center'
+            tree_registro.column(col, width=h[n], anchor=anchor_value)
 
         # Inserindo os dados
         if df_list:
@@ -1873,15 +1875,26 @@ def dados_anual():
     frame_cima = Frame(root6, width=900, height=50, bg=co1, relief='flat')
     frame_cima.grid(row=0, column=0, padx=0, pady=0, sticky=NSEW)
 
+    frame_botao = Frame(root6, width=900, height=50, bg=co1, relief='flat')
+    frame_botao.grid(row=1, column=0, sticky="nsew")
+
     frame_baixo = Frame(root6, width=900, height=550, bg=co1, relief='flat')
-    frame_baixo.grid(row=1, column=0, padx=0, pady=0, sticky=NSEW)
+    frame_baixo.grid(row=2, column=0, padx=0, pady=0, sticky=NSEW)
+
+    frame_tabela = Frame(root6, width=900, height=300, bg=co1, relief='flat')
+    frame_tabela.grid(row=3, column=0, sticky="nsew")
 
     l_titulo = Label(frame_cima, text="Dados Anuais", font=('Ivy 12 bold'), bg=co1, fg=co6)
     l_titulo.place(x=10, y=10)
     
+    def voltar_painel():
+        root6.destroy()
+        painel()
+    
     def cadastrar_dados():
         # Coleta de dados
         mes = combo_meses.get()
+        rota = combo_rotas.get()
         valor_rota = e_valor_rota.get()
         km = e_km.get()
         lucro = e_lucro.get()
@@ -1890,7 +1903,7 @@ def dados_anual():
         
 
         # Verificação de campos vazios
-        if not all([mes, valor_rota, km,  lucro, entregas, devolvidas]):
+        if not all([mes, rota, valor_rota, km,  lucro, entregas, devolvidas]):
             messagebox.showerror("Erro", "Preencha todos os campos!")
             return
 
@@ -1917,16 +1930,17 @@ def dados_anual():
             valor_id = tree_lista[0]
 
             # Limpando campos
-            for campo in [combo_meses, e_valor_rota, e_km, e_lucro, e_entregas, e_dev]:
+            for campo in [combo_meses, combo_rotas, e_valor_rota, e_km, e_lucro, e_entregas, e_dev]:
                 campo.delete(0, END)
 
             # Preenchendo os campos com os valores selecionados
             combo_meses.set(tree_lista[1])
-            e_valor_rota.insert(0, tree_lista[2])
-            e_km.insert(0, tree_lista[3])
-            e_lucro.insert(0, tree_lista[4])
-            e_entregas.insert(0, tree_lista[5])
-            e_dev.insert(0, tree_lista[6])
+            combo_rotas.set(tree_lista[2])
+            e_valor_rota.insert(0, tree_lista[3])
+            e_km.insert(0, tree_lista[4])
+            e_lucro.insert(0, tree_lista[5])
+            e_entregas.insert(0, tree_lista[6])
+            e_dev.insert(0, tree_lista[7])
 
             # Função para salvar alterações
             def update():
@@ -1949,7 +1963,7 @@ def dados_anual():
                     atualizar_dados_ee(dados)
                     messagebox.showinfo('Sucesso', 'Os dados foram atualizados com sucesso!')
 
-                    for campo in [combo_meses, e_valor_rota, e_km, e_lucro, e_entregas, e_dev]:
+                    for campo in [combo_meses, combo_rotas, e_valor_rota, e_km, e_lucro, e_entregas, e_dev]:
                         campo.delete(0, END)
 
                     atualizar_dados_anuais(valor_id)
@@ -1981,30 +1995,30 @@ def dados_anual():
             messagebox.showinfo('Sucesso', 'Os dados foram excluídos com sucesso!')
 
             # Atualizando a tabela
-            mostrar_e()
+            excluir_dados_anuais(valor_id)
 
         except IndexError:
             messagebox.showerror('Erro', 'Selecione um dos alunos na tabela')
 
-    bt_adicionar = Button(frame_baixo, command=cadastrar_dados, text="Adicionar", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_adicionar = Button(frame_botao, command=cadastrar_dados, text="Adicionar", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_adicionar.grid(row=0, column=0, padx=1, pady=1)
 
-    bt_excluir = Button(frame_baixo, command=excluir_dados, text="Excluir", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_excluir = Button(frame_botao, command=excluir_dados, text="Excluir", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_excluir.grid(row=0, column=1, padx=1, pady=1)
 
-    bt_imprimir = Button(frame_baixo, command=NONE, text="Imprimir", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_imprimir = Button(frame_botao, command=NONE, text="Imprimir", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_imprimir.grid(row=0, column=2, padx=1, pady=1)
 
-    bt_calc = Button(frame_baixo, command=NONE, text="Calcular", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_calc = Button(frame_botao, command=NONE, text="Calcular", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_calc.grid(row=0, column=3, padx=1, pady=1)
 
-    bt_rela = Button(frame_baixo, command=NONE, text="Relatório", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_rela = Button(frame_botao, command=NONE, text="Relatório", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_rela.grid(row=0, column=4, padx=1, pady=1)
 
-    bt_atualizar = Button(frame_baixo, command=update_dados, text="Atualizar", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_atualizar = Button(frame_botao, command=update_dados, text="Atualizar", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_atualizar.grid(row=0, column=5, padx=1, pady=1)
 
-    bt_voltar = Button(frame_baixo, command=voltar_painel, text="Painel", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_voltar = Button(frame_botao, command=voltar_painel, text="Painel", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_voltar.grid(row=0, column=6, padx=1, pady=1)
     
     
@@ -2034,21 +2048,64 @@ def dados_anual():
 
     l_lucro = Label(frame_baixo, text="Lucro R$:", font=('Ivy 10 bold'), bg=co1, fg=co6)
     l_lucro.place(x=10, y=100)
-    e_lucro = Entry(frame_baixo, width=10, justify=CENTER, font=('Ivy 10 bold'),  relief='solid', bg=co1, fg=co6)
+    e_lucro = Entry(frame_baixo, width=10, justify=CENTER, font=('Ivy 10 bold'),  relief='solid')
     e_lucro.place(x=90, y=100)
 
-    l_entregas = Label(frame_baixo, text="Entregas:", font=('Ivy 10 bold'), bg=co1, fg=co6)
+    l_entregas = Label(frame_baixo, text="Total Visitas:", font=('Ivy 10 bold'), bg=co1, fg=co6)
     l_entregas.place(x=170, y=40)
     e_entregas = Entry(frame_baixo, width=10, justify=CENTER, font=('Ivy 10 bold'),  relief='solid')
     e_entregas.place(x=240, y=40)
 
-    l_dev = Label(frame_baixo, text="Devolvidas:", font=('Ivy 10 bold'), bg=co1, fg=co6)
+    l_dev = Label(frame_baixo, text="Visitias Feitas:", font=('Ivy 10 bold'), bg=co1, fg=co6)
     l_dev.place(x=170, y=70)
     e_dev = Entry(frame_baixo, width=10, justify=CENTER, font=('Ivy 10 bold'),  relief='solid')
     e_dev.place(x=250, y=70)
     
     
+    #Tabela dados anuais
+    def mostrar_dados():
+
+        app_nome = Label(frame_tabela, text="Registros de Rotas", height=1, pady=0, padx=0, relief="flat", anchor=NW, font=('Ivy 10 bold'), bg=co1, fg=co6)
+        app_nome.place(x=10, y=10)
+
+        # Definição do cabeçalho
+        list_header = ['id', 'Mês','rota', 'Valor de Rota R$', 'Km', 'Lucro R$', 'Entregas', 'Devolvidas']
     
+        # Obtém os dados do estoque
+        df_list = ver_dados_anuais() # Certifique-se de que essa função retorna os dados corretamente
+
+        global tree_registro
+
+        # Criando a Treeview
+        tree_registro = ttk.Treeview(frame_tabela, selectmode="extended", columns=list_header, show="headings")
+
+        # Barras de rolagem
+        vsb = ttk.Scrollbar(frame_tabela, orient="vertical", command=tree_registro.yview)
+        hsb = ttk.Scrollbar(frame_tabela, orient="horizontal", command=tree_registro.xview)  # Corrigido aqui
+
+        tree_registro.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
+    
+        # Posicionando os widgets
+        tree_registro.grid(column=0, row=1, sticky='nsew')
+        vsb.grid(column=1, row=1, sticky='ns')
+        hsb.grid(column=0, row=2, sticky='ew')
+
+        frame_tabela.grid_rowconfigure(0, weight=12)
+
+        # Configuração das colunas
+        hd = ["nw", "center","center", "center", "center", "center", "center", "center"]
+        h = [ 40, 80,100, 100, 60, 100, 100, 100]
+    
+        for n, col in enumerate(list_header):
+            tree_registro.heading(col, text=col.title(), anchor=NW)
+            tree_registro.column(col, width=h[n], anchor=hd[n])
+
+        # Inserindo os dados
+        if df_list:
+            for item in df_list:
+                    tree_registro.insert("", "end", values=item)
+
+    mostrar_dados()
     
 
 

@@ -207,7 +207,7 @@ def excluir_dados_abastecimento(i):
 def criar_dados_anuais(i):
     with con:
         cur = con.cursor()
-        query = "INSERT INTO dados_anuais(mes,valor_total_rota,valor_total_abastecimento,valor_total_lucro,total_valor_rota) values(?,?,?,?,?)"
+        query = "INSERT INTO dados_anuais(mes,rota,valor_total_rota,valor_total_abastecimento,valor_total_lucro,total_valor_rota) values(?,?,?,?,?,?)"
         cur.execute(query, i)
         con.commit()  # Commit para salvar as alterações no banco de dados
 def ver_dados_anuais():
@@ -222,7 +222,7 @@ def ver_dados_anuais():
 def atualizar_dados_anuais(i):
     with con:
         cur = con.cursor()
-        query = "UPDATE dados_anuais SET mes=?,valor_total_rota=?,valor_total_abastecimento=?,valor_total_lucro=?,total_valor_rota=? WHERE id=?"
+        query = "UPDATE dados_anuais SET mes=?,rota=?,valor_total_rota=?,valor_total_abastecimento=?,valor_total_lucro=?,total_valor_rota=? WHERE id=?"
         cur.execute(query, i)
 def excluir_dados_anuais(i):
     with con:

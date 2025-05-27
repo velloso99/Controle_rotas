@@ -113,6 +113,7 @@ try:
             CREATE TABLE IF NOT EXISTS dados_anuais(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 mes TEXT,
+                rota TEXT,
                 total_entregas TEXT,
                 total_devolvidas TEXT,
                 total_km TEXT,
