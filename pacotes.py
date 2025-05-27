@@ -1,4 +1,5 @@
-from tkinter import *
+# Explicitly import only the required tkinter classes/functions
+from tkinter import Tk, Label, Frame, Button, Entry, Text, Scrollbar, messagebox, filedialog, simpledialog, Toplevel
 from tkinter import ttk
 from tkinter import Tk, Label, Frame, Button, Entry, Text, Scrollbar
 from tkinter import messagebox
@@ -13,7 +14,6 @@ from views import*
 from tkcalendar import Calendar
 from datetime import datetime
 from tkcalendar import DateEntry
-from tkinter import messagebox
 from tkinter.ttk import Treeview
 ####################################################################
 import tkinter as tk
