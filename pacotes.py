@@ -1,6 +1,4 @@
-# Explicitly import only the required tkinter classes/functions
-from tkinter import Tk, Label, Frame, Button, Entry, Text, Scrollbar, messagebox, filedialog, simpledialog, Toplevel
-from tkinter import *
+from tkinter import * # type: ignore
 from tkinter import ttk
 from tkinter import StringVar
 from tkinter import messagebox
