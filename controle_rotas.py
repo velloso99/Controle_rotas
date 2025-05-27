@@ -27,14 +27,6 @@ frame_login.place(x=0, y=0)
 ######################################################################################
 ################Login#################################################################
 ######################################################################################
-def abrir_painel():
-    for widget in frame_login.winfo_children():
-        widget.destroy()
-    painel()
-
-
-
-
 def login():
     
     global root
@@ -57,7 +49,7 @@ def login():
                 root.update_idletasks()  # Atualiza a interface
                 time.sleep(0.005)  # Tempo de espera (5ms)
             root.withdraw()
-            abrir_painel()
+            painel()
 
         else:
             messagebox.showerror("Erro", "Usuario ou senha incorretos!")
@@ -99,24 +91,24 @@ def login():
 def novo_usuario():
     
         # Criando Janela
-        root = Tk()
-        root.title("Novo Usuario")
-        root.geometry("500x400")
-        root.configure(background=co0)
-        root.resizable(width=False, height=False)
+        root1 = Toplevel(root) 
+        root1.title("Novo Usuario")
+        root1.geometry("500x400")
+        root1.configure(background=co0)
+        root1.resizable(width=False, height=False)
         largura_root= 500
         altura_root= 400
         #obter tamanho da tela
-        largura_tela = root.winfo_screenwidth()
-        altura_tela = root.winfo_screenheight()
+        largura_tela = root1.winfo_screenwidth()
+        altura_tela = root1.winfo_screenheight()
         # Calcular posição para centralizar
         pos_x = ( largura_tela-largura_root )//2
         pos_y = (altura_tela - altura_root)//2
         # Definir geometria da janela (LxA+X+Y)
-        root.geometry(f"{largura_root}x{altura_root}+{pos_x}+{pos_y}")
+        root1.geometry(f"{largura_root}x{altura_root}+{pos_x}+{pos_y}")
 
 
-        frame_n_senha = Frame(root, width=500, height=400, bg=co1)
+        frame_n_senha = Frame(root1, width=500, height=400, bg=co1)
         frame_n_senha.grid(row=0, column=0, sticky=NSEW)
     
         def cadastrar_usuario():
@@ -137,8 +129,7 @@ def novo_usuario():
                 porcentagem_label.config(text=f"{i}%")  # Atualiza o texto da porcentagem
                 root.update_idletasks()  # Atualiza a interface
                 time.sleep(0.005)  # Tempo de espera (5ms)
-
-            root.destroy()
+            root1.destroy()
             #subprocess.run(["python", "login.py"])
             # Criar login no banco de dados
             criar_login((usuario, senha))  # Passando como tupla
@@ -175,25 +166,25 @@ def novo_usuario():
 def esqueceu_senha():
     
     #Criar uma nova janela
-    root1 = Toplevel(root) 
-    root1.title("Atulizar Senha")
-    root1.geometry("400x400")
+    root2 = Toplevel(root) 
+    root2.title("Atulizar Senha")
+    root2.geometry("400x400")
     #root.overrideredirect(1)      
     largura_root1 = 400
     altura_root1 = 400
     #obter tamanho da tela
-    largura_tela = root1.winfo_screenwidth()
-    altura_tela = root1.winfo_screenheight()
+    largura_tela = root2.winfo_screenwidth()
+    altura_tela = root2.winfo_screenheight()
     # Calcular posição para centralizar
     pos_x = ( largura_tela-largura_root1 )//2
     pos_y = (altura_tela - altura_root1)//2
     # Definir geometria da janela (LxA+X+Y)
-    root1.geometry(f"{largura_root1}x{altura_root1}+{pos_x}+{pos_y}")
+    root2.geometry(f"{largura_root1}x{altura_root1}+{pos_x}+{pos_y}")
 
-    frame_Login = Frame(root1, width=250, height=300, bg=co1, relief='flat')
+    frame_Login = Frame(root2, width=250, height=300, bg=co1, relief='flat')
     frame_Login.grid(row=0, column=2,padx=0, pady=30 ,sticky=W)
 
-    frame_tabela = Frame(root1, width=250, height=310, bg=co1, relief='flat')
+    frame_tabela = Frame(root2, width=250, height=310, bg=co1, relief='flat')
     frame_tabela.grid(row=0, column=1, sticky=E)
     
     def update_login():
@@ -259,7 +250,7 @@ def esqueceu_senha():
         except IndexError:
             messagebox.showerror('Erro', 'Selecione um dos usuarios na tabela')
 
-    l_titulo = Label(root1, text="Atualizar Usuario e Senha", font=('Ivy 20 bold'), bg=co1, fg=co6)
+    l_titulo = Label(root2, text="Atualizar Usuario e Senha", font=('Ivy 20 bold'), bg=co1, fg=co6)
     l_titulo.place(x=201, y=15, anchor=CENTER)
     
     # TRabalhando no frame logo
@@ -330,7 +321,7 @@ def esqueceu_senha():
 
     mostrar_login()
 
-    l_titulo = Label(root1, text="Selecione o usuario na tabela, \n após o usuario selecionado, \n  clique no botão atualizar", font=('Ivy 10 bold'), bg=co1, fg=co6)
+    l_titulo = Label(root2, text="Selecione o usuario na tabela, \n após o usuario selecionado, \n  clique no botão atualizar", font=('Ivy 10 bold'), bg=co1, fg=co6)
     l_titulo.place(x=175, y=370, anchor=CENTER)
     
 
@@ -340,29 +331,52 @@ def esqueceu_senha():
 
 def painel():
     
-    def abrir_ml():
-        for widget in frame_titulo.winfo_children():
-            widget.destroy()
-        for widget in frame_baixo.winfo_children():
-            widget.destroy()
-        for widget in frame_botao.winfo_children():
-            widget.destroy()
+    def abrir_ml_rota():
+        root3.destroy()
         ml_rota()
-
-
+    def abrir_sp_rota():
+        root3.destroy()
+        sp_rota()
+    def abriree_rota():
+        root3.destroy()
+        ee_rota()
+    def abrir_abastecimento():
+        root3.destroy()
+        abastecimento()
+    
+    
+    # Criando Janela
+    root3 = Toplevel(root) 
+    root3.title("Controle de Rotas e Ganhos")
+    root3.geometry("900x600")
+    root3.configure(background=co0)
+    root3.resizable(width=False, height=False)
+    largura_root= 900
+    altura_root= 600
+    #obter tamanho da tela
+    largura_tela = root3.winfo_screenwidth()
+    altura_tela = root3.winfo_screenheight()
+    # Calcular posição para centralizar
+    pos_x = ( largura_tela-largura_root )//2
+    pos_y = (altura_tela - altura_root)//2
+    # Definir geometria da janela (LxA+X+Y)
+    root3.geometry(f"{largura_root}x{altura_root}+{pos_x}+{pos_y}")
+    
+    
     global v_mes_var
+    
     v_mes_var = tk.StringVar()
     
-    frame_titulo = Frame(root, width=900, height=50, bg=co1, relief='flat')
+    frame_titulo = Frame(root3, width=900, height=50, bg=co1, relief='flat')
     frame_titulo.grid(row=0, column=0, sticky="nsew")
 
-    frame_botao = Frame(root, width=900, height=50, bg=co1, relief='flat')
+    frame_botao = Frame(root3, width=900, height=50, bg=co1, relief='flat')
     frame_botao.grid(row=1, column=0, sticky="nsew")
 
     frame_baixo = Frame(root, width=900, height=200, bg=co1, relief='flat')
     frame_baixo.grid(row=2, column=0, sticky="nsew")
 
-    frame_tabela = Frame(root, width=900, height=300, bg=co1, relief='flat')
+    frame_tabela = Frame(root3, width=900, height=300, bg=co1, relief='flat')
     frame_tabela.grid(row=3, column=0, sticky="nsew")
     #################---------TITULO------##################################################################################
     l_titulo= Label(frame_titulo, text="Controle de Rotas e Ganhos", anchor=CENTER, font=('Ivy 13 bold'), bg=co6, fg=co0)
@@ -370,16 +384,16 @@ def painel():
     #################---------CONFIGURAÇÃO------##################################################################################
     locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')  # Pode variar por sistema operaciona   
     #################---------BOTÕES------##################################################################################
-    bt_ml = Button(frame_botao, command=abrir_ml, text="Mercado Livre", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_ml = Button(frame_botao, command=abrir_ml_rota, text="Mercado Livre", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_ml.grid(row=0, column=0, padx=1, pady=1)
 
-    bt_sp = Button(frame_botao, command=sp_rota, text="Shopee", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_sp = Button(frame_botao, command=abrir_sp_rota, text="Shopee", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_sp.grid(row=0, column=1, padx=1, pady=1)
 
-    bt_euentrego = Button(frame_botao, command=ee_rota, text="Eu Entrego", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_euentrego = Button(frame_botao, command=abriree_rota, text="Eu Entrego", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_euentrego.grid(row=0, column=2, padx=1, pady=1)
 
-    bt_abast = Button(frame_botao, command=abastecimento, text="Abastecimento", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_abast = Button(frame_botao, command=abrir_abastecimento, text="Abastecimento", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_abast.grid(row=0, column=3, padx=1, pady=1)
 
     bt_lucroanual = Button(frame_botao, command=None, text="Lucro Anual", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
@@ -400,16 +414,33 @@ def painel():
 #############################################################################################################################################
 def ml_rota():
     
-    frame_titulo = Frame(root, width=900, height=50, bg=co1, relief='flat')
+    # Criando Janela
+    root4 = Toplevel(root)
+    root4.title("Rota Mercado Livre")
+    root4.geometry("900x600")
+    root4.configure(background=co0)
+    root4.resizable(width=False, height=False)
+    largura_root= 900
+    altura_root= 600
+    #obter tamanho da tela
+    largura_tela = root4.winfo_screenwidth()
+    altura_tela = root4.winfo_screenheight()
+    # Calcular posição para centralizar
+    pos_x = ( largura_tela-largura_root )//2
+    pos_y = (altura_tela - altura_root)//2
+    # Definir geometria da janela (LxA+X+Y)
+    root4.geometry(f"{largura_root}x{altura_root}+{pos_x}+{pos_y}")
+    
+    frame_titulo = Frame(root4, width=900, height=50, bg=co1, relief='flat')
     frame_titulo.grid(row=0, column=0, sticky="nsew")
     
-    frame_botao = Frame(root, width=900, height=50, bg=co1, relief='flat')
+    frame_botao = Frame(root4, width=900, height=50, bg=co1, relief='flat')
     frame_botao.grid(row=1, column=0, padx=0, pady=0, sticky=NSEW)
 
-    frame_baixo = Frame(root, width=900, height=200, bg=co1, relief='flat')
+    frame_baixo = Frame(root4, width=900, height=200, bg=co1, relief='flat')
     frame_baixo.grid(row=2, column=0, padx=0, pady=0, sticky=NSEW)
 
-    frame_tabela = Frame(root, width=900, height=350, bg=co1, relief='flat')
+    frame_tabela = Frame(root4, width=900, height=350, bg=co1, relief='flat')
     frame_tabela.grid(row=3, column=0, padx=0, pady=0, sticky=NSEW)
 
     #################---------TITULO------##################################################################################
@@ -417,14 +448,7 @@ def ml_rota():
     l_titulo.place(x=0, y=0, relwidth=1, relheight=1)
     #################---------CONFIGURAÇÕES BOTÕES------##################################################################################
     def voltar_painel():
-        for widget in frame_titulo.winfo_children():
-            widget.destroy()
-        for widget in frame_baixo.winfo_children():
-            widget.destroy()
-        for widget in frame_botao.winfo_children():
-            widget.destroy()
-        for widget in frame_tabela.winfo_children():
-            widget.destroy()
+        root4.destroy()
         painel()
 
     ################---------CONFIGURAÇÃO DE DADOS------##################################################################################
@@ -756,17 +780,34 @@ def ml_rota():
 ###################################### ROTA SHOPPEE ##################################################################################
 #############################################################################################################################################
 def sp_rota():
+    
+    # Criando Janela
+    root5 = Toplevel(root)
+    root5.title("Rota Shopee")
+    root5.geometry("900x600")
+    root5.configure(background=co0)
+    root5.resizable(width=False, height=False)
+    largura_root= 900
+    altura_root= 600
+    #obter tamanho da tela
+    largura_tela = root5.winfo_screenwidth()
+    altura_tela = root5.winfo_screenheight()
+    # Calcular posição para centralizar
+    pos_x = ( largura_tela-largura_root )//2
+    pos_y = (altura_tela - altura_root)//2
+    # Definir geometria da janela (LxA+X+Y)
+    root5.geometry(f"{largura_root}x{altura_root}+{pos_x}+{pos_y}")
   
-    frame_cima = Frame(root, width=900, height=50, bg=co1, relief='flat')
+    frame_cima = Frame(root5, width=900, height=50, bg=co1, relief='flat')
     frame_cima.grid(row=0, column=0, padx=0, pady=0, sticky=NSEW)
     
-    frame_botao = Frame(root, width=900, height=50, bg=co1, relief='flat')
+    frame_botao = Frame(root5, width=900, height=50, bg=co1, relief='flat')
     frame_botao.grid(row=1, column=0, padx=0, pady=0, sticky=NSEW)
 
-    frame_baixo = Frame(root, width=900, height=200, bg=co1, relief='flat')
+    frame_baixo = Frame(root5, width=900, height=200, bg=co1, relief='flat')
     frame_baixo.grid(row=2, column=0, padx=0, pady=0, sticky=NSEW)
-    
-    frame_tabela = Frame(root, width=900, height=350, bg=co1, relief='flat')
+
+    frame_tabela = Frame(root5, width=900, height=350, bg=co1, relief='flat')
     frame_tabela.grid(row=3, column=0, padx=0, pady=0, sticky=NSEW)
     #################---------TITULO------##################################################################################
     l_titulo=Label(frame_cima, text="Rota da Shoppee",anchor=CENTER, font=('Ivy 13 bold'), bg=co6, fg=co0)
@@ -774,14 +815,7 @@ def sp_rota():
 
     #################---------CONFIGURAÇÕES BOTÕES------##################################################################################
     def voltar_painel():
-        for widget in frame_cima.winfo_children():
-            widget.destroy()
-        for widget in frame_baixo.winfo_children():
-            widget.destroy()
-        for widget in frame_botao.winfo_children():
-            widget.destroy()
-        for widget in frame_tabela.winfo_children():
-            widget.destroy()
+        root5.destroy()
         painel()
 
     ################---------CONFIGURAÇÃO DE DADOS------#################################################################################
@@ -1124,17 +1158,34 @@ def sp_rota():
 ###################################### ROTA EU ENTREGO ##################################################################################
 #############################################################################################################################################
 def ee_rota():
-  
-    frame_cima = Frame(root, width=900, height=50, bg=co1, relief='flat')
+    
+    # Criando Janela
+    root6 = Toplevel(root)
+    root6.title("Rota Eu Entrego")
+    root6.geometry("900x600")
+    root6.configure(background=co0)
+    root6.resizable(width=False, height=False)
+    largura_root= 900
+    altura_root= 600
+    #obter tamanho da tela
+    largura_tela = root6.winfo_screenwidth()
+    altura_tela = root6.winfo_screenheight()
+    # Calcular posição para centralizar
+    pos_x = ( largura_tela-largura_root )//2
+    pos_y = (altura_tela - altura_root)//2
+    # Definir geometria da janela (LxA+X+Y)
+    root6.geometry(f"{largura_root}x{altura_root}+{pos_x}+{pos_y}")
+
+    frame_cima = Frame(root6, width=900, height=50, bg=co1, relief='flat')
     frame_cima.grid(row=0, column=0, padx=0, pady=0, sticky=NSEW)
     
-    frame_botao = Frame(root, width=900, height=50, bg=co1, relief='flat')
+    frame_botao = Frame(root6, width=900, height=50, bg=co1, relief='flat')
     frame_botao.grid(row=1, column=0, padx=0, pady=0, sticky=NSEW)
 
-    frame_baixo = Frame(root, width=900, height=200, bg=co1, relief='flat')
+    frame_baixo = Frame(root6, width=900, height=200, bg=co1, relief='flat')
     frame_baixo.grid(row=2, column=0, padx=0, pady=0, sticky=NSEW)
-    
-    frame_tabela = Frame(root, width=900, height=350, bg=co1, relief='flat')
+
+    frame_tabela = Frame(root6, width=900, height=350, bg=co1, relief='flat')
     frame_tabela.grid(row=3, column=0, padx=0, pady=0, sticky=NSEW)
     #################---------TITULO------##################################################################################
     l_titulo=Label(frame_cima, text="Rota da Shoppee",anchor=CENTER, font=('Ivy 13 bold'), bg=co6, fg=co0)
@@ -1142,14 +1193,7 @@ def ee_rota():
 
     #################---------CONFIGURAÇÕES BOTÕES------##################################################################################
     def voltar_painel():
-        for widget in frame_cima.winfo_children():
-            widget.destroy()
-        for widget in frame_baixo.winfo_children():
-            widget.destroy()
-        for widget in frame_botao.winfo_children():
-            widget.destroy()
-        for widget in frame_tabela.winfo_children():
-            widget.destroy()
+        root6.destroy()
         painel()
 
     ################---------CONFIGURAÇÃO DE DADOS------#################################################################################
@@ -1473,16 +1517,34 @@ def ee_rota():
 
 
 def abastecimento():
-    frame_cima = Frame(root, width=900, height=50, bg=co1, relief='flat')
+    
+    # Criando Janela
+    root7 = Toplevel(root)
+    root7.title("Abastecimento")
+    root7.geometry("900x600")
+    root7.configure(background=co0)
+    root7.resizable(width=False, height=False)
+    largura_root= 900
+    altura_root= 600
+    #obter tamanho da tela
+    largura_tela = root7.winfo_screenwidth()
+    altura_tela = root7.winfo_screenheight()
+    # Calcular posição para centralizar
+    pos_x = ( largura_tela-largura_root )//2
+    pos_y = (altura_tela - altura_root)//2
+    # Definir geometria da janela (LxA+X+Y)
+    root7.geometry(f"{largura_root}x{altura_root}+{pos_x}+{pos_y}")
+    
+    frame_cima = Frame(root7, width=900, height=50, bg=co1, relief='flat')
     frame_cima.grid(row=0, column=0, padx=0, pady=0, sticky=NSEW)
     
-    frame_botao = Frame(root, width=900, height=50, bg=co1, relief='flat')
+    frame_botao = Frame(root7, width=900, height=50, bg=co1, relief='flat')
     frame_botao.grid(row=1, column=0, padx=0, pady=0, sticky=NSEW)
 
-    frame_baixo = Frame(root, width=900, height=200, bg=co1, relief='flat')
+    frame_baixo = Frame(root7, width=900, height=200, bg=co1, relief='flat')
     frame_baixo.grid(row=2, column=0, padx=0, pady=0, sticky=NSEW)
-    
-    frame_tabela = Frame(root, width=900, height=350, bg=co1, relief='flat')
+
+    frame_tabela = Frame(root7, width=900, height=350, bg=co1, relief='flat')
     frame_tabela.grid(row=3, column=0, padx=0, pady=0, sticky=NSEW)
     
     #################---------TITULO------##################################################################################
@@ -1491,14 +1553,7 @@ def abastecimento():
 
     #################---------CONFIGURAÇÕES BOTÕES------##################################################################################
     def voltar_painel():
-        for widget in frame_cima.winfo_children():
-            widget.destroy()
-        for widget in frame_baixo.winfo_children():
-            widget.destroy()
-        for widget in frame_botao.winfo_children():
-            widget.destroy()
-        for widget in frame_tabela.winfo_children():
-            widget.destroy()
+        root7.destroy()
         painel()
 
     ################---------CONFIGURAÇÃO DE DADOS------#################################################################################
