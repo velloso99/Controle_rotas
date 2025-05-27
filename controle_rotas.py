@@ -1999,6 +1999,26 @@ def dados_anual():
 
         except IndexError:
             messagebox.showerror('Erro', 'Selecione um dos alunos na tabela')
+                   
+    def calcular_media_combustivel():
+        try:
+            valor_rota = float(e_valor_rota.get())
+            km = float(e_km.get())
+            valor_bomba = float(e_v_comb.get())
+            
+            # Calcula o gasto com combustível (média de 10 km por litro)
+            gasto_combustivel = (km / 10) * valor_bomba
+            # Calcula o lucro: valor da rota - gasto com combustível
+            lucro = valor_rota - gasto_combustivel
+
+            # Mostra o lucro no campo de lucro
+            e_lucro.delete(0, END)
+            e_lucro.insert(0, f"{lucro:.2f}")
+
+        except ValueError:
+            messagebox.showerror("Erro", "Por favor, insira valores numéricos válidos.")
+            
+    
 
     bt_adicionar = Button(frame_botao, command=cadastrar_dados, text="Adicionar", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_adicionar.grid(row=0, column=0, padx=1, pady=1)
@@ -2009,10 +2029,10 @@ def dados_anual():
     bt_imprimir = Button(frame_botao, command=NONE, text="Imprimir", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_imprimir.grid(row=0, column=2, padx=1, pady=1)
 
-    bt_calc = Button(frame_botao, command=NONE, text="Calcular", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_calc = Button(frame_botao, command=calcular_media_combustivel, text="Calcular", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_calc.grid(row=0, column=3, padx=1, pady=1)
 
-    bt_rela = Button(frame_botao, command=NONE, text="Relatório", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_rela = Button(frame_botao, command=ver_dados_anuais, text="Relatório", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_rela.grid(row=0, column=4, padx=1, pady=1)
 
     bt_atualizar = Button(frame_botao, command=update_dados, text="Atualizar", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
@@ -2061,51 +2081,60 @@ def dados_anual():
     e_dev = Entry(frame_baixo, width=10, justify=CENTER, font=('Ivy 10 bold'),  relief='solid')
     e_dev.place(x=250, y=70)
     
+    l_v_comb = Label(frame_baixo, text="Valor da Bomba R$:", font=('Ivy 10 bold'), bg=co1, fg=co6)
+    l_v_comb.place(x=430, y=10)
+    e_v_comb = Entry(frame_baixo, width=10, justify=CENTER, font=('Ivy 10 bold'),  relief='solid')
+    e_v_comb.place(x=580, y=10)
+    
     
     #Tabela dados anuais
-    def mostrar_dados():
+    def mostrar_dados_anuais():
 
-        app_nome = Label(frame_tabela, text="Registros de Rotas", height=1, pady=0, padx=0, relief="flat", anchor=NW, font=('Ivy 10 bold'), bg=co1, fg=co6)
-        app_nome.place(x=10, y=10)
+        # Simulando dados (você pode substituir pela leitura do banco SQLite)
+        dados = ver_dados_anuais()
+        return dados
 
-        # Definição do cabeçalho
-        list_header = ['id', 'Mês','rota', 'Valor de Rota R$', 'Km', 'Lucro R$', 'Entregas', 'Devolvidas']
-    
-        # Obtém os dados do estoque
-        df_list = ver_dados_anuais() # Certifique-se de que essa função retorna os dados corretamente
+        # ================= FUNÇÃO PARA MOSTRAR TABELA =================
+        def mostrar_dados():
+            app_nome = Label(frame_tabela, text="Registros de Rotas", height=1, anchor=NW, font=('Ivy 12 bold'), bg="#ffffff", fg="#333333")
+            app_nome.grid(row=0, column=0, sticky='w', pady=5)
 
-        global tree_registro
+            # Cabeçalhos da tabela
+            list_header = ['ID', 'Mês', 'Rota', 'Valor de Rota (R$)', 'Km',
+                   'Lucro (R$)', 'Entregas', 'Devolvidas']
 
-        # Criando a Treeview
-        tree_registro = ttk.Treeview(frame_tabela, selectmode="extended", columns=list_header, show="headings")
+            global tree_dados
 
-        # Barras de rolagem
-        vsb = ttk.Scrollbar(frame_tabela, orient="vertical", command=tree_registro.yview)
-        hsb = ttk.Scrollbar(frame_tabela, orient="horizontal", command=tree_registro.xview)  # Corrigido aqui
+            tree_dados = ttk.Treeview(frame_tabela, columns=list_header, show='headings')
 
-        tree_registro.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
-    
-        # Posicionando os widgets
-        tree_registro.grid(column=0, row=1, sticky='nsew')
-        vsb.grid(column=1, row=1, sticky='ns')
-        hsb.grid(column=0, row=2, sticky='ew')
+        # Scrollbars
+        vsb = ttk.Scrollbar(frame_tabela, orient="vertical", command=tree_dados.yview)
+        hsb = ttk.Scrollbar(frame_tabela, orient="horizontal", command=tree_dados.xview)
+        tree_dados.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
 
-        frame_tabela.grid_rowconfigure(0, weight=12)
+        tree_dados.grid(row=1, column=0, sticky='nsew')
+        vsb.grid(row=1, column=1, sticky='ns')
+        hsb.grid(row=2, column=0, sticky='ew')
 
-        # Configuração das colunas
-        hd = ["nw", "center","center", "center", "center", "center", "center", "center"]
-        h = [ 40, 80,100, 100, 60, 100, 100, 100]
-    
-        for n, col in enumerate(list_header):
-            tree_registro.heading(col, text=col.title(), anchor=NW)
-            tree_registro.column(col, width=h[n], anchor=hd[n])
+        # Permitir expansão no grid
+        frame_tabela.grid_rowconfigure(1, weight=1)
+        frame_tabela.grid_columnconfigure(0, weight=1)
 
-        # Inserindo os dados
-        if df_list:
-            for item in df_list:
-                    tree_registro.insert("", "end", values=item)
+        # Definindo tamanho das colunas e alinhamento
+        colunas_largura = [50, 120, 100, 120, 60, 100, 100, 100]
+        colunas_alinhamento = ['center'] * 8
 
-    mostrar_dados()
+        for idx, col in enumerate(list_header):
+            tree_dados.heading(col, text=col, anchor='center')
+            tree_dados.column(col, width=colunas_largura[idx], anchor=colunas_alinhamento[idx])
+
+        # Inserindo dados
+        dados = ver_dados_anuais()
+        for item in dados:
+            tree_dados.insert('', 'end', values=item)
+
+    # ================= EXECUTAR =================
+    mostrar_dados_anuais()
     
 
 
