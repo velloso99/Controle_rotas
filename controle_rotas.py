@@ -1879,20 +1879,177 @@ def dados_anual():
     l_titulo = Label(frame_cima, text="Dados Anuais", font=('Ivy 12 bold'), bg=co1, fg=co6)
     l_titulo.place(x=10, y=10)
     
+    def cadastrar_dados():
+        # Coleta de dados
+        mes = combo_meses.get()
+        valor_rota = e_valor_rota.get()
+        km = e_km.get()
+        lucro = e_lucro.get()
+        entregas = e_entregas.get()
+        devolvidas = e_dev.get()
+        
+
+        # Verificação de campos vazios
+        if not all([mes, valor_rota, km,  lucro, entregas, devolvidas]):
+            messagebox.showerror("Erro", "Preencha todos os campos!")
+            return
+
+        try:
+            lista = [mes, float(valor_rota), float(km), float(lucro), int(entregas), int(devolvidas)]
+            criar_dados_ee(lista)
+            messagebox.showinfo("Sucesso", "Dados cadastrados com sucesso!")
+
+            # Limpa os campos após o cadastro
+            for campo in [combo_meses, e_valor_rota, e_km, e_lucro, e_entregas, e_dev]:
+                campo.delete(0, END)
+
+            criar_dados_anuais(lista)
+
+        except ValueError:
+            messagebox.showerror("Erro", "Verifique se os valores numéricos estão corretos.")
+            
+    def update_dados(): 
+        try:
+            tree_itens = tree_lucro.focus()
+            tree_dicionario = tree_lucro.item(tree_itens)
+            tree_lista = tree_dicionario['values']
+
+            valor_id = tree_lista[0]
+
+            # Limpando campos
+            for campo in [combo_meses, e_valor_rota, e_km, e_lucro, e_entregas, e_dev]:
+                campo.delete(0, END)
+
+            # Preenchendo os campos com os valores selecionados
+            combo_meses.set(tree_lista[1])
+            e_valor_rota.insert(0, tree_lista[2])
+            e_km.insert(0, tree_lista[3])
+            e_lucro.insert(0, tree_lista[4])
+            e_entregas.insert(0, tree_lista[5])
+            e_dev.insert(0, tree_lista[6])
+
+            # Função para salvar alterações
+            def update():
+                # Coleta de dados
+                dados = [
+                    combo_meses.get(),
+                    e_valor_rota.get(),
+                    e_km.get(),
+                    e_lucro.get(),
+                    e_entregas.get(),
+                    e_dev.get(),
+                    valor_id
+                ]
+
+                if not all(dados[:-1]):
+                    messagebox.showerror('Erro', 'Preencha todos os campos!')
+                    return
+
+                try:
+                    atualizar_dados_ee(dados)
+                    messagebox.showinfo('Sucesso', 'Os dados foram atualizados com sucesso!')
+
+                    for campo in [combo_meses, e_valor_rota, e_km, e_lucro, e_entregas, e_dev]:
+                        campo.delete(0, END)
+
+                    atualizar_dados_anuais(valor_id)
+
+                    if 'bt_update' in globals() and bt_update.winfo_exists():
+                        bt_update.destroy()
+
+                except Exception as e:
+                    messagebox.showerror('Erro', f'Erro ao atualizar: {e}')
+
+            # Botão de salvar alterações
+            bt_update = Button(frame_baixo, command=update, text="Salvar Atualizações", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+            bt_update.grid(row=0, column=8)
+
+        except IndexError:
+            messagebox.showerror('Erro', 'Selecione um dos alunos na tabela')
+    
+    def excluir_dados():
+        try:
+            tree_itens = tree_lucro.focus()
+            tree_dicionario = tree_lucro.item(tree_itens)
+            tree_lista = tree_dicionario['values']
+
+            valor_id = tree_lista[0]
+
+            # Excluindo os dados
+            excluir_dados_ee(valor_id)
+
+            messagebox.showinfo('Sucesso', 'Os dados foram excluídos com sucesso!')
+
+            # Atualizando a tabela
+            mostrar_e()
+
+        except IndexError:
+            messagebox.showerror('Erro', 'Selecione um dos alunos na tabela')
+
+    bt_adicionar = Button(frame_baixo, command=cadastrar_dados, text="Adicionar", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_adicionar.grid(row=0, column=0, padx=1, pady=1)
+
+    bt_excluir = Button(frame_baixo, command=excluir_dados, text="Excluir", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_excluir.grid(row=0, column=1, padx=1, pady=1)
+
+    bt_imprimir = Button(frame_baixo, command=NONE, text="Imprimir", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_imprimir.grid(row=0, column=2, padx=1, pady=1)
+
+    bt_calc = Button(frame_baixo, command=NONE, text="Calcular", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_calc.grid(row=0, column=3, padx=1, pady=1)
+
+    bt_rela = Button(frame_baixo, command=NONE, text="Relatório", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_rela.grid(row=0, column=4, padx=1, pady=1)
+
+    bt_atualizar = Button(frame_baixo, command=update_dados, text="Atualizar", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_atualizar.grid(row=0, column=5, padx=1, pady=1)
+
+    bt_voltar = Button(frame_baixo, command=voltar_painel, text="Painel", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_voltar.grid(row=0, column=6, padx=1, pady=1)
+    
     
     # Valores para o ComboBox
     rotas = ['Mercado Livre', 'Shoppee', 'Eu Entrego']
     # Criando ComboBox
-    combo_rotas = ttk.Combobox(frame_cima, values=rotas, font=('Ivy 12'))
+    combo_rotas = ttk.Combobox(frame_baixo, values=rotas, font=('Ivy 12'))
     combo_rotas.set('Selecione')  # Valor inicial
-    combo_rotas.pack(pady=5)
+    combo_rotas.place(x=10, y=10, width=200)
     
     # Valores para o ComboBox
     meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
     # Criando ComboBox
-    combo_meses = ttk.Combobox(frame_cima, values=meses, font=('Ivy 12'))
+    combo_meses = ttk.Combobox(frame_baixo, values=meses, font=('Ivy 12'))
     combo_meses.set('Selecione')  # Valor inicial
-    combo_meses.pack(pady=5)
+    combo_meses.place(x=220, y=10, width=200)
+    
+    l_valor_rota = Label(frame_baixo, text="Valor Rota:", font=('Ivy 10 bold'), bg=co1, fg=co6)
+    l_valor_rota.place(x=10, y=40)
+    e_valor_rota= Entry(frame_baixo, width=10, justify=CENTER, font=('Ivy 10 bold'),  relief='solid')
+    e_valor_rota.place(x=90, y=40)
+
+    l_km = Label(frame_baixo, text="KM:", font=('Ivy 10 bold'), bg=co1, fg=co6)
+    l_km.place(x=10, y=70)
+    e_km= Entry(frame_baixo, width=10, justify=CENTER, font=('Ivy 10 bold'),  relief='solid')
+    e_km.place(x=90, y=70)
+
+    l_lucro = Label(frame_baixo, text="Lucro R$:", font=('Ivy 10 bold'), bg=co1, fg=co6)
+    l_lucro.place(x=10, y=100)
+    e_lucro = Entry(frame_baixo, width=10, justify=CENTER, font=('Ivy 10 bold'),  relief='solid', bg=co1, fg=co6)
+    e_lucro.place(x=90, y=100)
+
+    l_entregas = Label(frame_baixo, text="Entregas:", font=('Ivy 10 bold'), bg=co1, fg=co6)
+    l_entregas.place(x=170, y=40)
+    e_entregas = Entry(frame_baixo, width=10, justify=CENTER, font=('Ivy 10 bold'),  relief='solid')
+    e_entregas.place(x=240, y=40)
+
+    l_dev = Label(frame_baixo, text="Devolvidas:", font=('Ivy 10 bold'), bg=co1, fg=co6)
+    l_dev.place(x=170, y=70)
+    e_dev = Entry(frame_baixo, width=10, justify=CENTER, font=('Ivy 10 bold'),  relief='solid')
+    e_dev.place(x=250, y=70)
+    
+    
+    
+    
 
 
 

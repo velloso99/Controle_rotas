@@ -203,72 +203,18 @@ def excluir_dados_abastecimento(i):
         query = "DELETE FROM Abastecimento WHERE id=?"
         cur.execute(query, (i,))
 
-# Tabela de mercado livre anual
-def criar_dados_anuais_ml(i):
-    with con:
-        cur = con.cursor()
-        query = "INSERT INTO mercado_livre(mes,valor_total_rota,valor_total_abastecimento,valor_total_lucro,total_valor_rota) values(?,?,?,?,?)"
-        cur.execute(query, i)
-        con.commit()  # Commit para salvar as alterações no banco de dados
-def ver_dados_anuais_ml():
-    try:
-        with con:
-            cur = con.cursor()
-            cur.execute('SELECT * FROM mercado_livre')
-            return cur.fetchall()
-    except Exception as e:
-        print(f"Erro ao buscar dados: {e}")
-        return []
-def atualizar_dados_anuais_ml(i):
-    with con:
-        cur = con.cursor()
-        query = "UPDATE mercado_livre SET mes=?,valor_total_rota=?,valor_total_abastecimento=?,valor_total_lucro=?,total_valor_rota=? WHERE id=?"
-        cur.execute(query, i)
-def excluir_dados_anuais_ml(i):
-    with con:
-        cur = con.cursor()
-        query = "DELETE FROM mercado_livre WHERE id=?"
-        cur.execute(query, (i,))
-
-# Tabela de shoppee anual
-def criar_dados_anuais_sp(i):
-    with con:
-        cur = con.cursor()
-        query = "INSERT INTO shoppee(mes,valor_total_rota,valor_total_abastecimento,valor_total_lucro,total_valor_rota) values(?,?,?,?,?)"
-        cur.execute(query, i)
-        con.commit()  # Commit para salvar as alterações no banco de dados
-def ver_dados_anuais_sp():
-    try:
-        with con:
-            cur = con.cursor()
-            cur.execute('SELECT * FROM shoppee')
-            return cur.fetchall()
-    except Exception as e:
-        print(f"Erro ao buscar dados: {e}")
-        return []
-def atualizar_dados_anuais_sp(i):
-    with con:
-        cur = con.cursor()
-        query = "UPDATE shoppee SET mes=?,valor_total_rota=?,valor_total_abastecimento=?,valor_total_lucro=?,total_valor_rota=? WHERE id=?"
-        cur.execute(query, i)
-def excluir_dados_anuais_sp(i):
-    with con:
-        cur = con.cursor()
-        query = "DELETE FROM shoppee WHERE id=?"
-        cur.execute(query, (i,))
-    
-# Tabela de Eu Entrego anual
+# Tabela de dados anuais
 def criar_dados_anuais(i):
     with con:
         cur = con.cursor()
-        query = "INSERT INTO eu_entrego(mes,valor_total_rota,valor_total_abastecimento,valor_total_lucro,total_valor_rota) values(?,?,?,?,?)"
+        query = "INSERT INTO dados_anuais(mes,valor_total_rota,valor_total_abastecimento,valor_total_lucro,total_valor_rota) values(?,?,?,?,?)"
         cur.execute(query, i)
         con.commit()  # Commit para salvar as alterações no banco de dados
 def ver_dados_anuais():
     try:
         with con:
             cur = con.cursor()
-            cur.execute('SELECT * FROM eu_entrego')
+            cur.execute('SELECT * FROM dados_anuais')
             return cur.fetchall()
     except Exception as e:
         print(f"Erro ao buscar dados: {e}")
@@ -276,13 +222,14 @@ def ver_dados_anuais():
 def atualizar_dados_anuais(i):
     with con:
         cur = con.cursor()
-        query = "UPDATE eu_entrego SET mes=?,valor_total_rota=?,valor_total_abastecimento=?,valor_total_lucro=?,total_valor_rota=? WHERE id=?"
+        query = "UPDATE dados_anuais SET mes=?,valor_total_rota=?,valor_total_abastecimento=?,valor_total_lucro=?,total_valor_rota=? WHERE id=?"
         cur.execute(query, i)
 def excluir_dados_anuais(i):
     with con:
         cur = con.cursor()
-        query = "DELETE FROM eu_entrego WHERE id=?"
+        query = "DELETE FROM dados_anuais WHERE id=?"
         cur.execute(query, (i,))
+
 
 
 
