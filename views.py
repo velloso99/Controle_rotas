@@ -15,6 +15,34 @@ def criar_login(i):
         cur = con.cursor()
         query = "INSERT INTO login (usuario, senha) values(?,?)"
         cur.execute(query, i) 
+def atualizar_login(i):
+    with con:
+        cur = con.cursor()
+        query = "UPDATE login SET usuario=?, senha=? WHERE id=?"
+        cur.execute(query, i)
+def ver_login():
+    try:
+        with con:  # Certifique-se de que `con` (conexão) está definida globalmente
+            cur = con.cursor()
+            cur.execute('SELECT * FROM login')
+            return cur.fetchall()
+    except Exception as e:
+        print(f"Erro ao buscar dados: {e}")
+        return []
+def excluir_login(i):
+    with con:
+        cur = con.cursor()
+        query = "DELETE FROM login WHERE id=?"
+        cur.execute(query, (i,))
+def verificar_usuario(usuario):
+    try:
+        with con:
+            cur = con.cursor()
+            cur.execute('SELECT * FROM login WHERE usuario=?', (usuario,))
+            return cur.fetchone() is not None
+    except Exception as e:
+        print(f"Erro ao verificar usuário: {e}")
+        return False
  
 # Tabela Mercado Livre
 def criar_dados_ml(i):
