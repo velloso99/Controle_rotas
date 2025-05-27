@@ -629,7 +629,8 @@ def ml_rota():
         def pegar_data():
             data_selecionada = cal.selection_get()
             e_data.delete(0, END)
-            e_data.insert(0, data_selecionada.strftime("%d/%m/%Y"))
+            if data_selecionada is not None:
+                e_data.insert(0, data_selecionada.strftime("%d/%m/%Y"))
 
             # Mapear o dia da semana
             dias_traduzidos = {
@@ -1872,25 +1873,27 @@ def dados_anual():
     frame_cima = Frame(root6, width=900, height=50, bg=co1, relief='flat')
     frame_cima.grid(row=0, column=0, padx=0, pady=0, sticky=NSEW)
 
-    frame_baixo = Frame(root6, width=900, height=200, bg=co1, relief='flat')
+    frame_baixo = Frame(root6, width=900, height=550, bg=co1, relief='flat')
     frame_baixo.grid(row=1, column=0, padx=0, pady=0, sticky=NSEW)
 
     l_titulo = Label(frame_cima, text="Dados Anuais", font=('Ivy 12 bold'), bg=co1, fg=co6)
     l_titulo.place(x=10, y=10)
     
+    
     # Valores para o ComboBox
-    rotas = ['Mercado Livre', 'Shopee', 'Eu Entrego']
+    rotas = ['Mercado Livre', 'Shoppee', 'Eu Entrego']
     # Criando ComboBox
-    combo_rotas = ttk.Combobox(frame_baixo, values=rotas, font=('Ivy 12'))
+    combo_rotas = ttk.Combobox(frame_cima, values=rotas, font=('Ivy 12'))
     combo_rotas.set('Selecione')  # Valor inicial
     combo_rotas.pack(pady=5)
     
-    
+    # Valores para o ComboBox
+    meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+    # Criando ComboBox
+    combo_meses = ttk.Combobox(frame_cima, values=meses, font=('Ivy 12'))
+    combo_meses.set('Selecione')  # Valor inicial
+    combo_meses.pack(pady=5)
 
-    
-    
-    
-    
 
 
 def relatorios_de_lucro():

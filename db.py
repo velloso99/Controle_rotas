@@ -103,14 +103,14 @@ try:
 except sqlite3.Error as e:
     print("Erro ao criar Abastecimento!")     
     
-    
-    
- #Tabela Dados Anuais
+
+
+ #Tabela Mercado Livre
 try:
     with con:
         cur= con.cursor()
         cur.execute("""
-            CREATE TABLE IF NOT EXISTS Dados_Anuais(
+            CREATE TABLE IF NOT EXISTS mercado_livre(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 mes TEXT,
                 total_entregas TEXT,
@@ -120,6 +120,42 @@ try:
                 total_lucro TEXT,
                 total_valor_rota TEXT
             )""")
-        print("Tabela Dados Anuais criada com sucesso!")
+        print("Tabela Mercado Livre criada com sucesso!")
 except sqlite3.Error as e:
-    print("Erro ao criar Dados Anuais!", e)
+    print("Erro ao criar tabela Mercado Livre!", e)
+ #Tabela Shoppee
+try:
+    with con:
+        cur= con.cursor()
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS shoppee(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                mes TEXT,
+                total_entregas TEXT,
+                total_devolvidas TEXT,
+                total_km TEXT,
+                total_abastecimento TEXT,
+                total_lucro TEXT,
+                total_valor_rota TEXT
+            )""")
+        print("Tabela Shoppee criada com sucesso!")
+except sqlite3.Error as e:
+    print("Erro ao criar tabela Shoppee!", e)
+ #Tabela Eu Entrego
+try:
+    with con:
+        cur= con.cursor()
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS eu_entrego(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                mes TEXT,
+                total_entregas TEXT,
+                total_devolvidas TEXT,
+                total_km TEXT,
+                total_abastecimento TEXT,
+                total_lucro TEXT,
+                total_valor_rota TEXT
+            )""")
+        print("Tabela Eu Entrego criada com sucesso!")
+except sqlite3.Error as e:
+    print("Erro ao criar tabela Eu Entrego!", e)
