@@ -32,8 +32,10 @@ def ver_login():
 def excluir_login(i):
     with con:
         cur = con.cursor()
-        query = "DELETE FROM login WHERE id=?"
+        query = "DELETE FROM login WHERE id = ?"
         cur.execute(query, (i,))
+        print(f"Login com ID {i} foi excluído com sucesso.")
+        
 def verificar_usuario(usuario):
     try:
         with con:

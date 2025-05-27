@@ -1,4 +1,5 @@
 from pacotes import *
+from views import *
 import sqlite3
 
 
@@ -87,7 +88,7 @@ def login():
     barra.place(x=300, y=400)
     porcentagem_label =Label(frame_login, text="0%", font=("Arial", 12), bg=co1, fg=co6)
     porcentagem_label.place(x=300, y=400)
-
+#*************************************************************************************************** 
 def novo_usuario():
     
         # Criando Janela
@@ -234,21 +235,26 @@ def esqueceu_senha():
     def del_usuario():
         try:
             tree_itens = tree_login.focus()
+        
+            if tree_itens == "":
+                messagebox.showerror('Erro', 'Selecione um dos usuários na tabela')
+                return
+        
             tree_dicionario = tree_login.item(tree_itens)
             tree_lista = tree_dicionario['values']
-            
+        
             valor_id = tree_lista[0]
-            
-            # deletar dados no Banco de Dados
-            excluir_login([valor_id])
-            
-            #Mostrando a menssagem de sucesso
-            messagebox.showinfo('Sucesso', 'Usuario e senha deletado com sucesso!')
-            
-            #mostrando os valores na tabela
-            mostrar_login()
-        except IndexError:
-            messagebox.showerror('Erro', 'Selecione um dos usuarios na tabela')
+        
+            # Confirmação antes de excluir
+            resposta = messagebox.askyesno("Confirmação", "Deseja realmente excluir este usuário?")
+        
+            if resposta:
+                excluir_login(valor_id)
+                messagebox.showinfo('Sucesso', 'Usuário e senha deletados com sucesso!')
+                mostrar_login()
+        
+        except Exception as e:
+            messagebox.showerror('Erro', f'Ocorreu um erro: {e}')
 
     l_titulo = Label(root2, text="Atualizar Usuario e Senha", font=('Ivy 20 bold'), bg=co1, fg=co6)
     l_titulo.place(x=201, y=15, anchor=CENTER)
@@ -323,8 +329,6 @@ def esqueceu_senha():
 
     l_titulo = Label(root2, text="Selecione o usuario na tabela, \n após o usuario selecionado, \n  clique no botão atualizar", font=('Ivy 10 bold'), bg=co1, fg=co6)
     l_titulo.place(x=175, y=370, anchor=CENTER)
-    
-
 ############################################################################################################################################
 ###################################### PAINEL PRINCIPAL ##################################################################################
 ############################################################################################################################################# 
@@ -343,10 +347,21 @@ def painel():
     def abrir_abastecimento():
         root3.destroy()
         abastecimento()
-    
-    
+    def abrir_lucro_anual():
+        root3.destroy()
+        lucro_anual()
+    def abrir_lucro_mensal():
+        root3.destroy()
+        lucro_mensal()
+    def abrir_contas():
+        root3.destroy()
+        contas()
+    def abrir_conta_mercado_livre():
+        root3.destroy()
+        conta_mercado_livre()
+
     # Criando Janela
-    root3 = Toplevel(root) 
+    root3 = Toplevel(root)
     root3.title("Controle de Rotas e Ganhos")
     root3.geometry("900x600")
     root3.configure(background=co0)
@@ -396,16 +411,16 @@ def painel():
     bt_abast = Button(frame_botao, command=abrir_abastecimento, text="Abastecimento", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_abast.grid(row=0, column=3, padx=1, pady=1)
 
-    bt_lucroanual = Button(frame_botao, command=None, text="Lucro Anual", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_lucroanual = Button(frame_botao, command=abrir_lucro_anual, text="Lucro Anual", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_lucroanual.grid(row=0, column=4, padx=1, pady=1)
 
-    bt_lucpormes = Button(frame_botao, command=None, text="Lucro por Mês", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_lucpormes = Button(frame_botao, command=abrir_lucro_mensal, text="Lucro por Mês", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_lucpormes.grid(row=0, column=5, padx=1, pady=1)
 
-    bt_contas = Button(frame_botao, command=None, text="Contas", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_contas = Button(frame_botao, command=abrir_contas, text="Contas", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_contas.grid(row=0, column=6, padx=1, pady=1)
 
-    bt_contaml = Button(frame_botao, command=None, text="Conta Mercado Livre", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
+    bt_contaml = Button(frame_botao, command=abrir_conta_mercado_livre, text="Conta Mercado Livre", bd=9, bg=co1, fg=co6, font=('verdana', 9, 'bold'))
     bt_contaml.grid(row=0, column=7, padx=1, pady=1)
 
 
@@ -1836,6 +1851,21 @@ def abastecimento():
                     tree_registro.insert("", "end", values=item)
 
     mostrar_abastecimento()
+
+def lucro_anual():
+    pass
+
+def lucro_mensal():
+    pass
+
+def contas():
+    pass
+
+def conta_mercado_livre():
+    pass
+
+
+
 
 
 
