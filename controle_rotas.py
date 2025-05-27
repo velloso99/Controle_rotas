@@ -1,5 +1,4 @@
 from pacotes import *
-from views import*
 from tkcalendar import Calendar
 
 
@@ -56,21 +55,21 @@ def login():
             messagebox.showerror("Erro", "Usuario ou senha incorretos!")
         cursor.close()
         
-    lbl_status = Label(frame_login, text="", font=('Ivy 15 bold'), bg=co0, fg=co1)
+    lbl_status = Label(frame_login, text="", font=('Ivy 15 bold'), bg=co1, fg=co6)
     lbl_status.place(x=325, y=220)
 
     l_titulo = Label(frame_login, text="Faça seu login", font=('Ivy 20 bold'), bg=co1, fg=co6)
     l_titulo.place(x=440, y=25, anchor=CENTER)
     
     l_user = Label(frame_login, text="Usuario", font=('Ivy 15 bold'), bg=co1, fg=co6)
-    l_user.place(x=240, y=60, anchor=CENTER)
+    l_user.place(x=440, y=60, anchor=CENTER)
     e_user= Entry(frame_login, width=25, justify=LEFT, font=('Ivy 15 bold'),  relief='solid')
-    e_user.place(x=250, y=100, anchor=CENTER)
+    e_user.place(x=440, y=100, anchor=CENTER)
 
     l_senha =Label(frame_login, text="Senha", font=('Ivy 15 bold'), bg=co1, fg=co6)
-    l_senha.place(x=240, y=140, anchor=CENTER)
+    l_senha.place(x=440, y=140, anchor=CENTER)
     e_senha= Entry(frame_login, width=25, justify=LEFT, font=('Ivy 15 bold'),show="*",  relief='solid')
-    e_senha.place(x=250, y=180, anchor=CENTER)
+    e_senha.place(x=440, y=180, anchor=CENTER)
 
     bt_enter = Button(frame_login, command=verificar_login, text="Enter", bd=3, bg=co1, fg=co6, font=('verdana', 11, 'bold'))
     bt_enter.place(x=45, y=225)
@@ -85,10 +84,10 @@ def login():
     bt_n_fechar.place(x=410, y=225)
     
     barra = ttk.Progressbar(frame_login, length=250, mode="determinate",style="green.Horizontal.TProgressbar" )
-    barra.place(x=170, y=275)
-    porcentagem_label =Label(frame_login, text="0%", font=("Arial", 12) )
-    porcentagem_label.place(x=120, y=275)
-    
+    barra.place(x=300, y=400)
+    porcentagem_label =Label(frame_login, text="0%", font=("Arial", 12), bg=co1, fg=co6)
+    porcentagem_label.place(x=300, y=400)
+
 def novo_usuario():
 
         frame_n_senha = Frame(root, width=500, height=300, bg=co0)
