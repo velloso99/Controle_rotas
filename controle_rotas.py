@@ -1,6 +1,6 @@
 from pacotes import *
-from tkcalendar import Calendar
-from tkinter import END  # Adiciona esta linha para importar END
+import sqlite3
+
 
 # Criando Janela
 root = Tk()
