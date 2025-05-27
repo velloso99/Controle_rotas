@@ -1,6 +1,6 @@
 from pacotes import *
 from tkcalendar import Calendar
-
+from tkinter import END  # Adiciona esta linha para importar END
 
 # Criando Janela
 root = Tk()
@@ -27,6 +27,14 @@ frame_login.place(x=0, y=0)
 ######################################################################################
 ################Login#################################################################
 ######################################################################################
+def abrir_painel():
+    for widget in frame_login.winfo_children():
+        widget.destroy()
+    painel()
+
+
+
+
 def login():
     
     global root
@@ -49,7 +57,7 @@ def login():
                 root.update_idletasks()  # Atualiza a interface
                 time.sleep(0.005)  # Tempo de espera (5ms)
             root.withdraw()
-            subprocess.run(["python", "painel.py"])  # Executa principal.py
+            abrir_painel()
 
         else:
             messagebox.showerror("Erro", "Usuario ou senha incorretos!")
@@ -59,29 +67,29 @@ def login():
     lbl_status.place(x=325, y=220)
 
     l_titulo = Label(frame_login, text="Faça seu login", font=('Ivy 20 bold'), bg=co1, fg=co6)
-    l_titulo.place(x=440, y=25, anchor=CENTER)
+    l_titulo.place(x=440, y=95, anchor=CENTER)
     
     l_user = Label(frame_login, text="Usuario", font=('Ivy 15 bold'), bg=co1, fg=co6)
-    l_user.place(x=440, y=60, anchor=CENTER)
+    l_user.place(x=440, y=160, anchor=CENTER)
     e_user= Entry(frame_login, width=25, justify=LEFT, font=('Ivy 15 bold'),  relief='solid')
-    e_user.place(x=440, y=100, anchor=CENTER)
+    e_user.place(x=440, y=200, anchor=CENTER)
 
     l_senha =Label(frame_login, text="Senha", font=('Ivy 15 bold'), bg=co1, fg=co6)
-    l_senha.place(x=440, y=140, anchor=CENTER)
+    l_senha.place(x=440, y=240, anchor=CENTER)
     e_senha= Entry(frame_login, width=25, justify=LEFT, font=('Ivy 15 bold'),show="*",  relief='solid')
-    e_senha.place(x=440, y=180, anchor=CENTER)
+    e_senha.place(x=440, y=280, anchor=CENTER)
 
     bt_enter = Button(frame_login, command=verificar_login, text="Enter", bd=3, bg=co1, fg=co6, font=('verdana', 11, 'bold'))
-    bt_enter.place(x=45, y=225)
+    bt_enter.place(x=220, y=325)
 
     bt_n_usuario = Button(frame_login, command=novo_usuario, text="Novo Usuario", bd=3, bg=co1, fg=co6, font=('verdana', 11, 'bold'))
-    bt_n_usuario.place(x=110, y=225)
+    bt_n_usuario.place(x=290, y=325)
 
     bt_esqueceu = Button(frame_login, command=esqueceu_senha, text="Esqueceu a Senha", bd=3, bg=co1, fg=co6, font=('verdana', 11, 'bold'))
-    bt_esqueceu.place(x=240, y=225)
+    bt_esqueceu.place(x=420, y=325)
 
     bt_n_fechar = Button(frame_login, command=root.destroy , text="Fechar", bd=3, bg=co1, fg=co6, font=('verdana', 11, 'bold'))
-    bt_n_fechar.place(x=410, y=225)
+    bt_n_fechar.place(x=590, y=325)
     
     barra = ttk.Progressbar(frame_login, length=250, mode="determinate",style="green.Horizontal.TProgressbar" )
     barra.place(x=300, y=400)
@@ -89,8 +97,26 @@ def login():
     porcentagem_label.place(x=300, y=400)
 
 def novo_usuario():
+    
+        # Criando Janela
+        root = Tk()
+        root.title("Novo Usuario")
+        root.geometry("500x400")
+        root.configure(background=co0)
+        root.resizable(width=False, height=False)
+        largura_root= 500
+        altura_root= 400
+        #obter tamanho da tela
+        largura_tela = root.winfo_screenwidth()
+        altura_tela = root.winfo_screenheight()
+        # Calcular posição para centralizar
+        pos_x = ( largura_tela-largura_root )//2
+        pos_y = (altura_tela - altura_root)//2
+        # Definir geometria da janela (LxA+X+Y)
+        root.geometry(f"{largura_root}x{altura_root}+{pos_x}+{pos_y}")
 
-        frame_n_senha = Frame(root, width=500, height=300, bg=co0)
+
+        frame_n_senha = Frame(root, width=500, height=400, bg=co1)
         frame_n_senha.grid(row=0, column=0, sticky=NSEW)
     
         def cadastrar_usuario():
@@ -124,27 +150,27 @@ def novo_usuario():
         
         barra = ttk.Progressbar(frame_n_senha, length=250, mode="determinate",style="green.Horizontal.TProgressbar")
         barra.place(x=170, y=275)
-        porcentagem_label = tk.Label(frame_n_senha, text="0%")
+        porcentagem_label = tk.Label(frame_n_senha, text="0%", font=("Arial", 12), bg=co1, fg=co6)
         porcentagem_label.place(x=120, y=275)
     
-        l_titulo = Label(frame_n_senha, text="Cadastrar um novo usuario", font=('Ivy 20 bold'), bg=co0, fg=co1)
-        l_titulo.place(x=230, y=15, anchor=CENTER)
-    
-        l_user = Label(frame_n_senha, text="Usuario", font=('Ivy 15 bold'), bg=co0, fg=co1)
+        l_titulo = Label(frame_n_senha, text="Cadastrar um novo usuario", font=('Ivy 20 bold'), bg=co1, fg=co6)
+        l_titulo.place(x=250, y=15, anchor=CENTER)
+
+        l_user = Label(frame_n_senha, text="Usuario", font=('Ivy 15 bold'), bg=co1, fg=co6)
         l_user.place(x=240, y=60, anchor=CENTER)
         e_user= Entry(frame_n_senha, width=25, justify=LEFT, font=('Ivy 15 bold'),  relief='solid')
         e_user.place(x=250, y=100, anchor=CENTER)
 
-        l_senha =Label(frame_n_senha, text="Senha", font=('Ivy 15 bold'), bg=co0, fg=co1)
+        l_senha =Label(frame_n_senha, text="Senha", font=('Ivy 15 bold'), bg=co1, fg=co6)
         l_senha.place(x=240, y=140, anchor=CENTER)
         e_senha= Entry(frame_n_senha, width=25, justify=LEFT, font=('Ivy 15 bold'),show="*",  relief='solid')
         e_senha.place(x=250, y=180, anchor=CENTER)
 
-        bt_enter = Button(frame_n_senha, command=cadastrar_usuario, text="Enter", bd=3, bg=co0, fg=co1, font=('verdana', 11, 'bold'))
-        bt_enter.place(x=105, y=225)
-    
-        bt_fechar = Button(frame_n_senha, command=root.destroy, text="Atualizar", bd=3, bg=co0, fg=co1, font=('verdana', 11, 'bold'))
-        bt_fechar.place(x=200, y=225)
+        bt_enter = Button(frame_n_senha, command=cadastrar_usuario, text="Enter", bd=3, bg=co1, fg=co6, font=('verdana', 11, 'bold'))
+        bt_enter.place(x=155, y=225)
+
+        bt_atualizar = Button(frame_n_senha, command=root.destroy, text="Atualizar", bd=3, bg=co1, fg=co6, font=('verdana', 11, 'bold'))
+        bt_atualizar.place(x=250, y=225)
 #***************************************************************************************************     
 def esqueceu_senha():
     
@@ -164,10 +190,10 @@ def esqueceu_senha():
     # Definir geometria da janela (LxA+X+Y)
     root1.geometry(f"{largura_root1}x{altura_root1}+{pos_x}+{pos_y}")
 
-    frame_Login = Frame(root1, width=250, height=300, bg=co0)
+    frame_Login = Frame(root1, width=250, height=300, bg=co1, relief='flat')
     frame_Login.grid(row=0, column=2,padx=0, pady=30 ,sticky=W)
 
-    frame_tabela = Frame(root1, width=250, height=310, bg=co0 )
+    frame_tabela = Frame(root1, width=250, height=310, bg=co1, relief='flat')
     frame_tabela.grid(row=0, column=1, sticky=E)
     
     def update_login():
@@ -209,7 +235,7 @@ def esqueceu_senha():
                 mostrar_login()
                 botao_update.destroy()
                 
-            botao_update = Button(frame_Login, command= update,  anchor=CENTER,text='Salvar e Atualizar'.upper(), width=18, overrelief=RIDGE, font=('Ivy 10'), bg=co3, fg=co1)
+            botao_update = Button(frame_Login, command= update,  anchor=CENTER,text='Salvar e Atualizar'.upper(), width=18, overrelief=RIDGE, font=('Ivy 10'), bg=co1, fg=co6)
             botao_update.place(x=45, y=270) 
         except IndexError:
             messagebox.showerror('Erro', 'Selecione um dos login na tabela')
@@ -232,37 +258,37 @@ def esqueceu_senha():
             mostrar_login()
         except IndexError:
             messagebox.showerror('Erro', 'Selecione um dos usuarios na tabela')
-            
-    l_titulo = Label(root1, text="Atualizar Usuario e Senha", font=('Ivy 20 bold'), bg=co0, fg=co1)
+
+    l_titulo = Label(root1, text="Atualizar Usuario e Senha", font=('Ivy 20 bold'), bg=co1, fg=co6)
     l_titulo.place(x=201, y=15, anchor=CENTER)
     
     # TRabalhando no frame logo
 
-    l_user = Label(frame_Login, text="Usuario", font=('Ivy 15 bold'), bg=co0, fg=co1)
+    l_user = Label(frame_Login, text="Usuario", font=('Ivy 15 bold'), bg=co1, fg=co6)
     l_user.place(x=130, y=15, anchor=CENTER)
     e_user= Entry(frame_Login, width=15, justify=LEFT, font=('Ivy 15 bold'),  relief='solid')
     e_user.place(x=130, y=50, anchor=CENTER)
 
-    l_senha = Label(frame_Login, text="Senha", font=('Ivy 15 bold'), bg=co0, fg=co1)
+    l_senha = Label(frame_Login, text="Senha", font=('Ivy 15 bold'), bg=co1, fg=co6)
     l_senha.place(x=130, y=85, anchor=CENTER)
     e_senha= Entry(frame_Login, width=15, justify=LEFT, font=('Ivy 15 bold'),show="*",  relief='solid')
     e_senha.place(x=130, y=120, anchor=CENTER)
 
 
-    bt_enter = Button(frame_Login, command=update_login, text="Atualizar", bd=3, bg=co0, fg=co1, font=('verdana', 11, 'bold'))
+    bt_enter = Button(frame_Login, command=update_login, text="Atualizar", bd=3, bg=co1, fg=co6, font=('verdana', 11, 'bold'))
     bt_enter.place(x=85, y=145)
 
     #bt_voltar = Button(frame_Login, command=voltar_login, text="Voltar", bd=3, bg=co0, fg=co1, font=('verdana', 11, 'bold'))
     #bt_voltar.place(x=95, y=190)
 
-    bt_excluir = Button(frame_Login, command=del_usuario, text="Deletar", bd=3, bg=co0, fg=co1, font=('verdana', 11, 'bold'))
+    bt_excluir = Button(frame_Login, command=del_usuario, text="Deletar", bd=3, bg=co1, fg=co6, font=('verdana', 11, 'bold'))
     bt_excluir.place(x=85, y=190)
 
     
     
     def mostrar_login():
         
-        app_nome = Label(frame_tabela, text="Login", height=1, pady=0, padx=0, relief="flat", anchor=NW, font=('Ivy 10 bold'), bg=co1, fg=co4)
+        app_nome = Label(frame_tabela, text="Login", height=1, pady=0, padx=0, relief="flat", anchor=NW, font=('Ivy 10 bold'), bg=co1, fg=co6)
         app_nome.grid(row=0, column=0, padx=0, pady=10, sticky=NSEW)
 
         # Definição do cabeçalho
@@ -304,62 +330,9 @@ def esqueceu_senha():
 
     mostrar_login()
 
-    l_titulo = Label(root1, text="Selecione o usuario na tabela, \n após o usuario selecionado, \n  clique no botão atualizar", font=('Ivy 10 bold'), bg=co0, fg=co1)
+    l_titulo = Label(root1, text="Selecione o usuario na tabela, \n após o usuario selecionado, \n  clique no botão atualizar", font=('Ivy 10 bold'), bg=co1, fg=co6)
     l_titulo.place(x=175, y=370, anchor=CENTER)
     
-    
-    
-
-    #destruir frame login
-    def cad_usuario():
-        for widget in frame_login.winfo_children():
-            widget.destroy()
-        tela_cadastrar_usuario()
-    def abrir_painel():
-        for widget in frame_login.winfo_children():
-            widget.destroy()
-        painel()
-    
-#criar tela de cadastro usuario
-def tela_cadastrar_usuario():
-    
-    def cadastrar_usuario():
-        usuario = e_usuario.get()
-        senha = e_senha.get()
-        
-        lista = [usuario, senha]
-        
-        for i in lista:
-            if i == "":
-                messagebox.showerror("Erro", "Preencha todos os campos!")
-                return
-        criar_login(lista)
-        
-        messagebox.showinfo("Sucesso", "Usuario cadastrado com sucesso!")
-        login()
-        e_usuario.delete(0, END)
-        e_senha.delete(0, END)
-    
-    
- 
-    l_titulo = Label(frame_login, text="Cadastrar novo usuario", font=('Ivy 20 bold'), bg=co1, fg=co6)
-    l_titulo.place(x=450, y=50, anchor=CENTER)
-
-    l_usuario= Label(frame_login,text="Usuario", font=('Ivy 15 bold'), bg=co1, fg=co6)
-    l_usuario.place(x=450, y=150, anchor=CENTER)
-    e_usuario = Entry(frame_login, width=30, justify=LEFT, font=('ivy 15 bold'), highlightthickness=1, relief="solid")
-    e_usuario.place(x=450, y=200, anchor=CENTER)
-
-    l_senha = Label(frame_login, text="Senha", font=('Ivy 15 bold'), bg=co1, fg=co6)
-    l_senha.place(x=450, y=250, anchor=CENTER)
-    e_senha = Entry(frame_login, width=30, justify=LEFT, font=('Ivy 15 bold'),show="*", highlightthickness=1, relief="solid")
-    e_senha.place(x=450, y=300,anchor=CENTER)
-
-    l_enter= Button(frame_login,command= cadastrar_usuario, text="Enter", font=('Ivy 15 bold'), width=10, overrelief=RIDGE, relief="solid", bg=co1, fg=co6)
-    l_enter.place(x=450, y=350, anchor=CENTER)
-
-    l_voltar = Button(frame_login,command=login, text="Voltar", font=('Ivy 15 bold'), compound=LEFT, width=20, overrelief=RIDGE, relief="solid", bg=co1, fg=co6)
-    l_voltar.place(x=450, y=400, anchor=CENTER)
 
 ############################################################################################################################################
 ###################################### PAINEL PRINCIPAL ##################################################################################

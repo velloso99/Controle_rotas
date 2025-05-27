@@ -1,6 +1,6 @@
-from tkinter import*
+from tkinter import *
 from tkinter import ttk
-from tkinter import Tk, Label
+from tkinter import Tk, Label, Frame, Button, Entry, Text, Scrollbar
 from tkinter import messagebox
 from tkinter import filedialog
 from tkinter import simpledialog
@@ -27,3 +27,4 @@ import datetime
 import time
 import progressbar
 import ctypes
+import tkinter as tk
